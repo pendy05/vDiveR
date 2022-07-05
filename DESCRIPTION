@@ -1,0 +1,14 @@
+Package: DiveR
+Type: Package
+Title: Visualization Of Viral Protein Sequence Diversity Dynamics
+Version: 0.1.0
+Author: Pendy Tok, Li Chuin Chong, Evgenia Chikina
+Maintainer: Pendy Tok <pendytok0518@gmail.com>
+Description: DiveR allow users to visualize the diversity motifs 
+    (index and its variants – major, minor and unique) for elucidation 
+    of the underlying inherent dynamics.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: tools, Rcpp, plyr, dplyr, tidyr, stringr, ggplot2, ggpubr, ggtext, 
+    gghalves, grid, gridExtra, pacman, facetscales
