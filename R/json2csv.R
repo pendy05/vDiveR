@@ -1,5 +1,18 @@
-#current dima-cli version 3.2.1, will modify code based on the latest version
-json2csv <-function(infile, hostname="unknown host", proteinName="unknown protein", outfilename="output.csv"){
+#' JSON2CSV
+#'
+#' Convert DiMA JSON output file to dataframe which can be further save to CSV file per se
+#'
+#' @param infile DiMA JSON output file
+#' @param hostName name of the host species
+#' @param proteinName name of the protein
+#' @return A dataframe which acts as input for the other functions in DiveR package
+#' @examples inputdf<-json2csv(JSONsample)
+#' @importFrom stats aggregate
+#' @importFrom dplyr mutate_if right_join distinct
+#' @importFrom tidyr replace_na
+#' @export
+json2csv <-function(infile, hostName="unknown host", proteinName="unknown protein"){
+    Group.2 <- x <- results.position <- motif_short <- NULL
     #read JSON file
     write("\r\n", file = infile, append = TRUE, sep = "\n")
     con <- file(infile)
@@ -39,22 +52,20 @@ json2csv <-function(infile, hostname="unknown host", proteinName="unknown protei
     index_data$results.low_support[is.na(index_data$results.low_support)] <- FALSE
 
     #combine both the index and variant motif information to motifs
-    motifs<-right_join(motifs_incidence,index_data[c("sample_name","results.support","results.low_support","results.entropy","results.distinct_variants_incidence","results.position","results.total_variance","sequence")],by='results.position')%>%
-        distinct()
+    motifs<-right_join(motifs_incidence,index_data[c('query_name',"results.support","results.low_support","results.entropy","results.distinct_variants_incidence","results.position","results.total_variants_incidence","sequence",'highest_entropy.position','highest_entropy.entropy','average_entropy')],by='results.position')%>%
+      distinct()
 
-    #assign hostname
-    motifs['host'] <- hostname
+    #assign host
+    motifs['host'] <- hostName
 
     #rename columns
-    colnames(motifs)<-c('position','index.incidence','major.incidence','minor.incidence','unique.incidence','multiIndex','proteinName','count','lowSupport','entropy','distinctVariant.incidence','totalVariants.incidence','indexSequence','host')
+    colnames(motifs)<-c('position','index.incidence','major.incidence','minor.incidence','unique.incidence','multiIndex','proteinName','count','lowSupport','entropy','distinctVariant.incidence','totalVariants.incidence','indexSequence','highestEntropy.position','highestEntropy','averageEntropy','host')
     #reorder the columns
-    motifs<-motifs[,c(7,1,8,9,10,13,2,3,4,5,12,11,6,14)]
-    #assign protein name
-    motifs['proteinName']<-proteinName
+    motifs<-motifs[,c(7,1,8,9,10,13,2,3,4,5,12,11,6,17,14,15,16)]
+
     motifs
 
     #write to csv file
     #write.table(motifs, sep=",", row.names = FALSE , file = outfilename)
-
 }
 

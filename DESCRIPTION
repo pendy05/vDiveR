@@ -10,5 +10,8 @@ Description: DiveR allow users to visualize the diversity motifs
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: tools, Rcpp, plyr, dplyr, tidyr, stringr, ggplot2, ggpubr, ggtext, 
-    gghalves, grid, gridExtra, pacman, facetscales
+Imports: dplyr, facetscales, gghalves, ggplot2, ggpubr, grid, gridExtra, ggtext,
+        magrittr, pacman, plyr, tidyr, tools, stringr,  Rcpp, rlang
+RoxygenNote: 7.2.1
+Depends: 
+    R (>= 2.10)

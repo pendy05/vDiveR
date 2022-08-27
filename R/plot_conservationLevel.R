@@ -1,30 +1,58 @@
-plot_conservationLevel <- function(data, proteinOrder="",conservationLabel=1,host=1){
-    data<-data%>%mutate(ConservationLevel = case_when(
-        data$index.incidence == 100 ~ "Completely conserved (CC)",
-        data$index.incidence >= 90 ~ "Highly conserved (HC)",
-        data$index.incidence >= 20 ~ "Mixed variable (MV)",
-        data$index.incidence >= 10  ~ "Highly diverse (HD)",
-        data$index.incidence < 10 ~ "Extremely diverse (ED)"
+#' Conservation levels distribution Plot
+#'
+#' plot conservation levels distribution of k-mer positions, which consists of
+#' completely conserved (black) (index incidence = 100\%), highly conserved (blue)
+#' (90\% ≤ index incidence < 100\%), mixed variable (green) (20\% < index incidence ≤ 90\%),
+#' highly diverse (purple) (10\% < index incidence ≤ 20\%) and
+#' extremely diverse (pink) (index incidence ≤ 10\%)
+#'
+#' @param df DiMA JSON converted csv file data
+#' @param proteinOrder order of proteins displayed in plot
+#' @param conservationLabel 0 (partial; show present conservation labels only) or 1 (full; show ALL conservation labels) in plot
+#' @param host number of host (1/2)
+#' @param base_size base font size in plot
+#' @param label_size conservation labels font size
+#' @param alpha any number from 0 (transparent) to 1 (opaque)
+#' @examples plot_conservationLevel(proteins_1host, conservationLabel = 1,alpha=0.8, base_size = 15)
+#' @examples plot_conservationLevel(protein_2hosts, conservationLabel = 0, host=2)
+#' @return A plot
+#' @importFrom dplyr case_when
+#' @importFrom grid unit
+#' @importFrom gridExtra grid.arrange
+#' @export
+plot_conservationLevel <- function(df, proteinOrder="",conservationLabel=1,host=1, base_size = 11, label_size = 2.6, alpha=0.6){
+    df<-df%>%mutate(ConservationLevel = case_when(
+        df$index.incidence == 100 ~ "Completely conserved (CC)",
+        df$index.incidence >= 90 ~ "Highly conserved (HC)",
+        df$index.incidence >= 20 ~ "Mixed variable (MV)",
+        df$index.incidence >= 10  ~ "Highly diverse (HD)",
+        df$index.incidence < 10 ~ "Extremely diverse (ED)"
     ))
 
     #single host
     if (host == 1){
-        plot_plot7(data,proteinOrder,conservationLabel)
+        plot_plot7(data = df,proteinOrder = proteinOrder,conservationLabel = conservationLabel, base_size = base_size, label_size = label_size)
     }else{ #multihost
 
         #split the data into multiple subsets (if multiple hosts detected)
-        plot7_list<-split(data,data$host)
-        plot7_multihost<-lapply(plot7_list,plot_plot7, proteinOrder,conservationLabel)
+        plot7_list<-split(df,df$host)
+        plot7_multihost<-lapply(plot7_list,plot_plot7, proteinOrder,conservationLabel, base_size, label_size)
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(2.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(plot7_multihost,"+",theme), nrow = length(unique(data$host))))
+        do.call("grid.arrange", c(grobs=lapply(plot7_multihost,"+",theme), nrow = length(unique(df$host))))
     }
 }
 
-
+#' @importFrom plyr ddply .
+#' @importFrom ggplot2 position_jitter scale_colour_manual
+#' @importFrom ggplot2 position_dodge coord_cartesian
+#' @importFrom gghalves geom_half_boxplot geom_half_point
+#' @importFrom ggtext geom_richtext
 #plotting function
-plot_plot7<- function(data,proteinOrder="",conservationLabel=1){
+plot_plot7<- function(data,proteinOrder="",conservationLabel=1, base_size = 11, label_size = 2.6, alpha =0.6){
+    proteinName <- ConservationLabel <- Total <- index.incidence <- NULL
+    Label <- ConservationLevel <- NULL
     #add word 'protein' in front of each protein name
     data$proteinName<-paste("Protein",data$proteinName)
     #create data for proteome bar "All" from existing data
@@ -93,10 +121,10 @@ plot_plot7<- function(data,proteinOrder="",conservationLabel=1){
         # gghalfves
         geom_half_boxplot(outlier.shape = NA) +
         geom_half_point(aes(col = ConservationLevel), side = "r",
-                        position = position_jitter(width = 0, height=-0.7),alpha=0.6) +
+                        position = position_jitter(width = 0, height=-0.7),alpha=alpha) +
         ylim(0,105) +
         labs(x=NULL, y="Index incidence (%)\n", fill="Conservation level")+
-        theme_classic()+
+        theme_classic(base_size = base_size)+
         theme(
             legend.key = element_rect(fill = "transparent", colour = "transparent"),
             legend.position = 'bottom',
@@ -119,7 +147,7 @@ plot_plot7<- function(data,proteinOrder="",conservationLabel=1){
                       aes(x=proteinName,label = Label, y=c(rep(105,nProtein)),
                           label.size=0, label.color="transparent"),
                       position = position_dodge(width=0.1),
-                      size=2.6, color="black", hjust=0, angle=90) +
+                      size=label_size, color="black", hjust=0, angle=90) +
         guides(color = guide_legend(override.aes = list(size = 2), nrow=2))+
         coord_cartesian(clip = "off")+ #allow ggtext outside of the plot
         ggtitle(unique(data$host))

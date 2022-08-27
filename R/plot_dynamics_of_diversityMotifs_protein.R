@@ -1,21 +1,40 @@
-plot_dynamics_of_diversityMotifs_protein<-function(data, proteinOrder="",host=1, base_size=8, alpha = 1/3, size = 3){
+#' Plot dynamics of diversity motifs (Protein)
+#'
+#' @param df DiMA JSON converted csv file data
+#' @param host number of host (1/2)
+#' @param proteinOrder order of proteins displayed in plot
+#' @param base_size base font size in plot
+#' @param alpha any number from 0 (transparent) to 1 (opaque)
+#' @param dot_size dot size in scatter plot
+#' @return A plot
+#' @examples plot_dynamics_of_diversityMotifs_protein(proteins_1host)
+#' @examples plot_dynamics_of_diversityMotifs_protein(protein_2hosts, base_size = 8, dot_size = 3, alpha=0.1, host = 2)
+#' @importFrom gridExtra grid.arrange
+#' @export
+plot_dynamics_of_diversityMotifs_protein<-function(df, host=1, proteinOrder="", base_size=8, alpha = 1/3, dot_size = 3){
     #single host
     if (host == 1){
-        plot4_5(data,proteinOrder, alpha, size, base_size)
+        plot4_5(df,proteinOrder, alpha, dot_size, base_size)
     }else{ #multihost
         #split the data into multiple subsets (if multiple hosts detected)
-        plot4_list<-split(data,data$host)
-        plot4_multihost<-lapply(plot4_list,plot4_5,proteinOrder, alpha, size, base_size)
+        plot4_list<-split(df,df$host)
+        plot4_multihost<-lapply(plot4_list,plot4_5,proteinOrder, alpha, dot_size, base_size)
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(plot4_multihost,"+",theme), ncol = length(unique(data$host))))
+        do.call("grid.arrange", c(grobs=lapply(plot4_multihost,"+",theme), ncol = length(unique(df$host))))
     }
 }
 
 
-#plotting
-plot4_5<-function(data, proteinOrder="",alpha=1/3,size=3, base_size=8){
+#' plotting
+#' @importFrom ggplot2 guides guide_legend scale_colour_manual ggtitle element_text
+#' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
+#' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
+#' @importFrom ggpubr annotate_figure ggarrange text_grob
+plot4_5<-function(data, proteinOrder="",alpha=1/3, dot_size=3, base_size=8){
+    Total_Variants <- Incidence <- Group <- x <- proteinName <- entropy <- NULL
+
     plot4_data<-data.frame()
     group_names<-c("Index","Major","Minor","Unique","Total variants","Distinct variants")
 
@@ -37,7 +56,7 @@ plot4_5<-function(data, proteinOrder="",alpha=1/3,size=3, base_size=8){
     plot5_data<-plot4_data
 
     #plot plot 4
-    plot4<-ggplot()+geom_point(plot4_data,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=alpha,size=size)+
+    plot4<-ggplot()+geom_point(plot4_data,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=alpha,size=dot_size)+
         scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
         scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
         labs(y = "Incidence (%)",x= NULL)+

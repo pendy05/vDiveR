@@ -1,4 +1,23 @@
+#' k-mer sequences concatenation
+#'
+#' Concatenate completely/highly conserved k-mer positions that overlapped at least one k-mer position or are adjacent to each other
+#'
+#' @param data DiMA JSON converted csv file data
+#' @param conservationLevel CCS (completely conserved) / HCS (highly conserved)
+#' @param kmer size of the k-mer window
+#' @param output_type type of the output; "csv" or "fasta"
+#' @return A dataframe
+#' @examples csv<-concat_conserved_kmer(proteins_1host)
+#' @examples csv_2hosts<-concat_conserved_kmer(protein_2hosts, conservationLevel = "CCS")
+#' @examples fasta <- concat_conserved_kmer(protein_2hosts, output_type = "fasta", conservationLevel = "HCS")
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter select summarise group_by slice bind_rows mutate n
+#' @importFrom stringr str_sub
+#' @importFrom tidyr spread separate
+#' @importFrom rlang :=
+#' @export
 concat_conserved_kmer<-function(data, conservationLevel = "HCS",kmer=9,output_type="csv"){
+    index.incidence <- proteinName <- indexSequence <- n <- start <- end <- NULL
     # threshold HCS / CCS
     threshold <- ifelse(conservationLevel == "CCS", 100, 90)
 
@@ -16,9 +35,9 @@ concat_conserved_kmer<-function(data, conservationLevel = "HCS",kmer=9,output_ty
 
     # remember whole sequence of the protein
     proteins_seq <- data %>%
-        select(proteinName, indexPeptide) %>%
+        select(proteinName, indexSequence) %>%
         group_by(proteinName) %>%
-        summarise(seq = paste0(str_sub(indexPeptide, 1, 1), collapse = "")) %>%
+        summarise(seq = paste0(str_sub(indexSequence, 1, 1), collapse = "")) %>%
         spread(key = proteinName, value = seq)
 
     # add missing last amino acids
@@ -27,7 +46,7 @@ concat_conserved_kmer<-function(data, conservationLevel = "HCS",kmer=9,output_ty
             paste0(proteins_seq[[protein]],
                    data %>%
                        filter(proteinName == protein) %>%
-                       select(indexPeptide) %>%
+                       select(indexSequence) %>%
                        slice(n()) %>%
                        as.character() %>% str_sub(2))
     }
@@ -60,7 +79,7 @@ concat_conserved_kmer<-function(data, conservationLevel = "HCS",kmer=9,output_ty
                         start_pos <- as.numeric(row["position"])
                         data.frame(matrix(data = TRUE,
                                           nrow = 1, ncol = kmer,
-                                          dimnames = list(row["indexPeptide"],
+                                          dimnames = list(row["indexSequence"],
                                                           seq(start_pos, start_pos + kmer - 1))))
                     })
 

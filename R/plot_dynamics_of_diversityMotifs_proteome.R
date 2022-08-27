@@ -1,20 +1,38 @@
-plot_dynamics_of_diversityMotifs_proteome <- function(data,host=1,line_dot_size=2,word_size=15){
+#' Dynamics of diversity motifs (Proteome) Plot
+#'
+#' Plot dynamics of diversity motifs (Proteome)
+#'
+#' @param df DiMA JSON converted csv file data
+#' @param host number of host (1/2)
+#' @param dot_size size of dot in plot
+#' @param word_size word size in plot
+#' @param alpha any number from 0 (transparent) to 1 (opaque)
+#' @return A plot
+#' @examples plot_dynamics_of_diversityMotifs_proteome(proteins_1host)
+#' @examples plot_dynamics_of_diversityMotifs_proteome(protein_2hosts, word_size = 8, dot_size = 3, alpha=0.1, host = 2)
+#' @importFrom gridExtra grid.arrange
+#' @export
+plot_dynamics_of_diversityMotifs_proteome <- function(df,host=1,dot_size=2,word_size=15, alpha=1/3){
     #single host
     if (host == 1){
-        plot3(data,line_dot_size,word_size)
+        plot3(df,dot_size,word_size,alpha)
     }else{ #multihost
         #split the data into multiple subsets (if multiple hosts detected)
-        plot3_list<-split(data,data$host)
-        plot3_multihost<-lapply(plot3_list,plot3)
+        plot3_list<-split(df,df$host)
+        plot3_multihost<-lapply(plot3_list,plot3, dot_size, word_size,alpha)
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(plot3_multihost,"+",theme), ncol = length(unique(data$host))))
+        do.call("grid.arrange", c(grobs=lapply(plot3_multihost,"+",theme), ncol = length(unique(df$host))))
     }
 
 }
 
-plot3<-function(data,line_dot_size=2,word_size=15){
+#' @importFrom ggplot2 element_blank facet_wrap scale_colour_manual
+#' @importFrom ggplot2 guides guide_legend scale_color_manual ggtitle element_text geom_violin geom_boxplot ylim scale_color_grey margin scale_fill_manual
+#' @importFrom ggpubr annotate_figure ggarrange text_grob
+plot3<-function(data,dot_size=2,word_size=15,alpha=1/3){
+    Total_Variants <- Incidence <- Group <- x <- NULL
     plot3_data<-data.frame()
     group_names<-c("Index","Major","Minor","Unique","Total variants","Distinct variants")
 
@@ -42,7 +60,7 @@ plot3<-function(data,line_dot_size=2,word_size=15){
     plot3_data<- rbind(plot3_data,minor,uniq)
     plot3_data$motif<-factor(plot3_data$motif,levels = c("Major","Minor","Unique","Distinct variants"))
     #plotting 3a
-    plot3a<-ggplot()+geom_point(plot3_data,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=1/3,size=3)+
+    plot3a<-ggplot()+geom_point(plot3_data,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=alpha,size= dot_size)+
         geom_point(plot3_data,mapping = aes(x =Total_Variants,y=Incidence),col=ifelse(plot3_data$multiIndex== TRUE & plot3_data$Group== "Index", 'red', ifelse(plot3_data$multiIndex== FALSE, 'white', 'white')), alpha=ifelse(plot3_data$multiIndex ==TRUE & plot3_data$Group== "Index", 1, ifelse(plot3_data$multiIndex== TRUE, 0,0)),pch=1,size=3,stroke=1.05)+ #multiIndex
         scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
         scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
