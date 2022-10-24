@@ -33,7 +33,8 @@ plot_incidence(
 A plot
 }
 \description{
-Plot entropy and total variant incidence plot
+This function plot entropy (black) and total variant (red) incidence of each
+k-mer position across the studied proteins and highlight region with zero entropy in yellow.
 }
 \examples{
 plot_incidence(proteins_1host)

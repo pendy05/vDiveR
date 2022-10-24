@@ -30,6 +30,6 @@ A data frame with 806 rows and 17 variables:
 proteins_1host
 }
 \description{
-A dummy dataset with two proteins (HCV and Core) from one host, human
+A dummy dataset with two proteins (A and B) from one host, human
 }
 \keyword{datasets}

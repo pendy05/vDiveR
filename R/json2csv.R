@@ -1,6 +1,7 @@
 #' JSON2CSV
 #'
-#' Convert DiMA JSON output file to dataframe which can be further save to CSV file per se
+#' This function converts DiMA (v4.1.1) JSON output file to a dataframe with 17
+#' predefined columns which further acts as the input for other functions provided in this DiveR package.
 #'
 #' @param infile DiMA JSON output file
 #' @param hostName name of the host species

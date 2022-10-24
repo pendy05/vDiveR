@@ -36,7 +36,8 @@ plot_correlation(
 A scatter plot
 }
 \description{
-plot correlation between entropy and total variant incidence
+This function plots the correlation between entropy and total variant incidence
+of all the provided protein(s).
 }
 \examples{
 plot_correlation(proteins_1host)

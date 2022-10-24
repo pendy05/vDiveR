@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_dynamics_protein.R
 \name{plot_dynamics_protein}
 \alias{plot_dynamics_protein}
-\title{Plot dynamics of diversity motifs (Protein)}
+\title{Dynamics of Diversity Motifs (Protein) Plot}
 \usage{
 plot_dynamics_protein(
   df,
@@ -30,7 +30,8 @@ plot_dynamics_protein(
 A plot
 }
 \description{
-Plot dynamics of diversity motifs (Protein)
+This function compactly display the dynamics of diversity motifs (index and its variants: major, minor and unique)
+in the form of dot plot(s) as well as violin plots for all the provided individual protein(s).
 }
 \examples{
 plot_dynamics_protein(proteins_1host)

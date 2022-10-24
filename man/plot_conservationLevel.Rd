@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_conservationLevel.R
 \name{plot_conservationLevel}
 \alias{plot_conservationLevel}
-\title{Conservation levels distribution Plot}
+\title{Conservation Levels Distribution Plot}
 \usage{
 plot_conservationLevel(
   df,
@@ -33,11 +33,11 @@ plot_conservationLevel(
 A plot
 }
 \description{
-plot conservation levels distribution of k-mer positions, which consists of
+This function plots conservation levels distribution of k-mer positions, which consists of
 completely conserved (black) (index incidence = 100\%), highly conserved (blue)
 (90\% ≤ index incidence < 100\%), mixed variable (green) (20\% < index incidence ≤ 90\%),
 highly diverse (purple) (10\% < index incidence ≤ 20\%) and
-extremely diverse (pink) (index incidence ≤ 10\%)
+extremely diverse (pink) (index incidence ≤ 10\%).
 }
 \examples{
 plot_conservationLevel(proteins_1host, conservationLabel = 1,alpha=0.8, base_size = 15)

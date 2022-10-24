@@ -1,6 +1,9 @@
 #' k-mer sequences concatenation
 #'
-#' Concatenate completely/highly conserved k-mer positions that overlapped at least one k-mer position or are adjacent to each other
+#' This function concatenates completely (index incidence = 100%)/highly (90% <=
+#' index incidence < 100%) conserved k-mer positions that overlapped at least one
+#' k-mer position or are adjacent to each other and generate the CCS/HCS sequence
+#' in either CSv or FASTA format
 #'
 #' @param data DiMA JSON converted csv file data
 #' @param conservationLevel CCS (completely conserved) / HCS (highly conserved)

@@ -1,4 +1,7 @@
-#' Plot dynamics of diversity motifs (Protein)
+#' Dynamics of Diversity Motifs (Protein) Plot
+#'
+#' This function compactly display the dynamics of diversity motifs (index and its variants: major, minor and unique)
+#' in the form of dot plot(s) as well as violin plots for all the provided individual protein(s).
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)

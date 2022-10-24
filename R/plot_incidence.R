@@ -1,6 +1,7 @@
 #' Entropy and total variant incidence plot
 #'
-#' Plot entropy and total variant incidence plot
+#' This function plot entropy (black) and total variant (red) incidence of each
+#' k-mer position across the studied proteins and highlight region with zero entropy in yellow.
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)

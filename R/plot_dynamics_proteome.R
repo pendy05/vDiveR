@@ -1,6 +1,7 @@
-#' Dynamics of diversity motifs (Proteome) Plot
+#' Dynamics of Diversity Motifs (Proteome) Plot
 #'
-#' Plot dynamics of diversity motifs (Proteome)
+#' This function compactly display the dynamics of diversity motifs (index and its variants: major, minor and unique)
+#' in the form of dot plot as well as violin plot for all the provided proteins at proteome level.
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)

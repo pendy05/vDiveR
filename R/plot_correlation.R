@@ -1,6 +1,7 @@
 #' Entropy and total variant incidence correlation plot
 #'
-#' plot correlation between entropy and total variant incidence
+#' This function plots the correlation between entropy and total variant incidence
+#' of all the provided protein(s).
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)

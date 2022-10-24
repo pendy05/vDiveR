@@ -17,7 +17,8 @@ json2csv(infile, hostName = "unknown host", proteinName = "unknown protein")
 A dataframe which acts as input for the other functions in DiveR package
 }
 \description{
-Convert DiMA JSON output file to dataframe which can be further save to CSV file per se
+This function converts DiMA (v4.1.1) JSON output file to a dataframe with 17
+predefined columns which further acts as the input for other functions provided in this DiveR package.
 }
 \examples{
 inputdf<-json2csv(JSONsample)

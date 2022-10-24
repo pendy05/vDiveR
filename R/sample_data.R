@@ -1,6 +1,6 @@
 #' DiMA (v4.1.1) JSON converted-CSV Output Sample 1
 #'
-#' A dummy dataset with two proteins (HCV and Core) from one host, human
+#' A dummy dataset with two proteins (A and B) from one host, human
 #'
 #'
 #' @format A data frame with 806 rows and 17 variables:
