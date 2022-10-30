@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(DiveR)
+library(vDiveR)
 
-test_check("DiveR")
+test_check("vDiveR")

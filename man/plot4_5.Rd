@@ -6,6 +6,17 @@
 \usage{
 plot4_5(data, proteinOrder = "", alpha = 1/3, dot_size = 3, base_size = 8)
 }
+\arguments{
+\item{data}{DiMA JSON converted csv file data}
+
+\item{proteinOrder}{order of proteins displayed in plot}
+
+\item{alpha}{any number from 0 (transparent) to 1 (opaque)}
+
+\item{dot_size}{dot size in scatter plot}
+
+\item{base_size}{base font size in plot}
+}
 \description{
 plotting
 }

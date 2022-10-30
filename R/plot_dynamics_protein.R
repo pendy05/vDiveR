@@ -31,6 +31,11 @@ plot_dynamics_protein<-function(df, host=1, proteinOrder="", base_size=8, alpha 
 
 
 #' plotting
+#' @param data DiMA JSON converted csv file data
+#' @param proteinOrder order of proteins displayed in plot
+#' @param base_size base font size in plot
+#' @param alpha any number from 0 (transparent) to 1 (opaque)
+#' @param dot_size dot size in scatter plot
 #' @importFrom ggplot2 guides guide_legend scale_colour_manual ggtitle element_text
 #' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
 #' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
@@ -70,7 +75,7 @@ plot4_5<-function(data, proteinOrder="",alpha=1/3, dot_size=3, base_size=8){
             legend.position = "bottom"
         )+ guides(colour = guide_legend(override.aes = list(alpha = 1,size=2),keywidth = 1,keyheight = 1,nrow=1,byrow=TRUE))+
         scale_colour_manual('',values = c("Index"="black","Total variants"="#f7238a", "Major"="#37AFAF","Minor"="#42aaff","Unique"="#af10f1","Distinct variants"="#c2c7cb" ))
-    plot4<-plot4+facet_grid(col=vars(plot4_data$proteinName))
+    plot4<-plot4+facet_grid(cols=vars(plot4_data$proteinName))
 
     #host label
     if("host" %in% colnames(data)){

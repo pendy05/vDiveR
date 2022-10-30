@@ -3,7 +3,7 @@
 #' This function converts DiMA (v4.1.1) JSON output file to a dataframe with 17
 #' predefined columns which further acts as the input for other functions provided in this DiveR package.
 #'
-#' @param infile DiMA JSON output file
+#' @param json_data DiMA JSON output dataframe
 #' @param hostName name of the host species
 #' @param proteinName name of the protein
 #' @return A dataframe which acts as input for the other functions in DiveR package
@@ -12,22 +12,25 @@
 #' @importFrom dplyr mutate_if right_join distinct
 #' @importFrom tidyr replace_na
 #' @export
-json2csv <-function(infile, hostName="unknown host", proteinName="unknown protein"){
-    Group.2 <- x <- results.position <- motif_short <- NULL
+json2csv <-function(json_data, hostName="unknown host", proteinName="unknown protein"){
+    #Group.2 <- x <- results.position <- motif_short <- NULL
     #read JSON file
-    write("\r\n", file = infile, append = TRUE, sep = "\n")
-    con <- file(infile)
-    jsonfile <- readLines(con)
-    close(con)
-    json_data <- jsonlite::fromJSON(paste(jsonfile, collapse = "\n"))
+    #write("\r\n", file = infile, append = TRUE, sep = "\n")
+    #con <- file(infile)
+    #jsonfile <- readLines(con)
+    #close(con)
+    #json_data <- jsonlite::fromJSON(paste(jsonfile, collapse = "\n"))
 
     data_flatten <- as.data.frame(json_data) %>%
-        tidyr::unnest()
+        tidyr::unnest(cols = c(results.diversity_motifs))
+
     # data transformation
     motifs_incidence <- aggregate(data_flatten$incidence, list(data_flatten$results.position,data_flatten$motif_short), FUN=sum) %>%
-        spread(Group.2,x) %>%                           # transpose the rows (motif-long & incidence) to columns (index, major, minor, unique)
-        mutate_if(is.numeric, ~(replace_na(., 0)))      # replace NAN with 0
+        tidyr::spread(Group.2,x) %>%                           # transpose the rows (motif-long & incidence) to columns (index, major, minor, unique)
+        dplyr::mutate_if(is.numeric, ~(replace_na(., 0)))      # replace NAN with 0
     #rename column 'Group.1' to 'results.position'
+
+
     colnames(motifs_incidence)[colnames(motifs_incidence) == 'Group.1'] <- "results.position"
 
     #sum the number of Index motif found in each position (if > 1 => multiIndex == TRUE)
@@ -39,7 +42,7 @@ json2csv <-function(infile, hostName="unknown host", proteinName="unknown protei
     #merge multiIndex to motifs_incidence df
     motifs_incidence <-right_join(motifs_incidence,multiIndex, by='results.position')%>%
         distinct()
-
+    #HERE I STOP
     #replace multiIndex with boolean: x > 1 = TRUE and vice versa
     motifs_incidence$multiIndex <- ifelse(motifs_incidence$multiIndex>1, TRUE,FALSE)
 
@@ -54,7 +57,7 @@ json2csv <-function(infile, hostName="unknown host", proteinName="unknown protei
 
     #combine both the index and variant motif information to motifs
     motifs<-right_join(motifs_incidence,index_data[c('query_name',"results.support","results.low_support","results.entropy","results.distinct_variants_incidence","results.position","results.total_variants_incidence","sequence",'highest_entropy.position','highest_entropy.entropy','average_entropy')],by='results.position')%>%
-      distinct()
+        distinct()
 
     #assign host
     motifs['host'] <- hostName
@@ -66,7 +69,5 @@ json2csv <-function(infile, hostName="unknown host", proteinName="unknown protei
 
     motifs
 
-    #write to csv file
-    #write.table(motifs, sep=",", row.names = FALSE , file = outfilename)
 }
 

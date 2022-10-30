@@ -4,10 +4,10 @@
 \alias{json2csv}
 \title{JSON2CSV}
 \usage{
-json2csv(infile, hostName = "unknown host", proteinName = "unknown protein")
+json2csv(json_data, hostName = "unknown host", proteinName = "unknown protein")
 }
 \arguments{
-\item{infile}{DiMA JSON output file}
+\item{json_data}{DiMA JSON output dataframe}
 
 \item{hostName}{name of the host species}
 

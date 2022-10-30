@@ -139,9 +139,9 @@ plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line
 
         #number of host
         if (host == 1){ #one host
-            plot1 +facet_grid_sc(col=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "x")
+            plot1 +facet_grid_sc(cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "x")
         }else{ # multi host
-            plot1 +facet_grid_sc(rows = vars(df$host),col=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "both")
+            plot1 +facet_grid_sc(rows = vars(df$host),cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "both")
         }
 
     }else{
@@ -178,9 +178,9 @@ plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line
                                               "Total Variants"=1))
         #number of host
         if (host == 1){ #one host
-            plot1 +facet_grid_sc(col=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "x")
+            plot1 +facet_grid_sc(cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "x")
         }else{ # multi host
-            plot1 +facet_grid_sc(rows = vars(df$host),col=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "both")
+            plot1 +facet_grid_sc(rows = vars(df$host),cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "both")
         }
     }
 
