@@ -14,11 +14,11 @@ json2csv(json_data, hostName = "unknown host", proteinName = "unknown protein")
 \item{proteinName}{name of the protein}
 }
 \value{
-A dataframe which acts as input for the other functions in DiveR package
+A dataframe which acts as input for the other functions in vDiveR package
 }
 \description{
 This function converts DiMA (v4.1.1) JSON output file to a dataframe with 17
-predefined columns which further acts as the input for other functions provided in this DiveR package.
+predefined columns which further acts as the input for other functions provided in this vDiveR package.
 }
 \examples{
 inputdf<-json2csv(JSONsample)

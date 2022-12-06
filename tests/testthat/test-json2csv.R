@@ -1,4 +1,4 @@
-JSONsample <- './proteinA.json'
+
 test_that("Test Case 1: json2csv works on sample data (JSONsample), check df shape and column names",{
     csv_df <- json2csv(JSONsample)
     expect_equal(unique(csv_df$proteinName), "A")
