@@ -1,19 +1,19 @@
 #' JSON2CSV
 #'
 #' This function converts DiMA (v4.1.1) JSON output file to a dataframe with 17
-#' predefined columns which further acts as the input for other functions provided in this DiveR package.
+#' predefined columns which further acts as the input for other functions provided in this vDiveR package.
 #'
 #' @param json_data DiMA JSON output dataframe
 #' @param hostName name of the host species
 #' @param proteinName name of the protein
-#' @return A dataframe which acts as input for the other functions in DiveR package
+#' @return A dataframe which acts as input for the other functions in vDiveR package
 #' @examples inputdf<-json2csv(JSONsample)
 #' @importFrom stats aggregate
 #' @importFrom dplyr mutate_if right_join distinct
 #' @importFrom tidyr replace_na
 #' @export
 json2csv <-function(json_data, hostName="unknown host", proteinName="unknown protein"){
-    #Group.2 <- x <- results.position <- motif_short <- NULL
+    Group.2 <- x <- results.position <- results.diversity_motifs <- motif_short <- NULL
     #read JSON file
     #write("\r\n", file = infile, append = TRUE, sep = "\n")
     #con <- file(infile)

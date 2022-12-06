@@ -93,11 +93,19 @@ plot_entropy <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line_d
     #---------------set maximum y limit-----------------#
     #if the max y value in data < 10 => ymax = 10
     #if max y value in data > 10 => ymax = ceiling(max y value)
-    #if (max(df$entropy) <= 10){
-    #    ymax <-10.0
-    #}else if (max(df$entropy) > 10){
-    #    ymax <- ceiling(max(df$entropy))
-    #}
+    if (max(df$entropy) <= 10){
+       ymax <-10.0
+    }else if (max(df$entropy) > 10){
+       ymax <- ceiling(max(df$entropy))
+    }
+
+    breaks_fun <- function(x) {
+        seq(0,max(x),50)
+    }
+
+    limits_fun <- function(x) {
+        c(0,max(x))
+    }
 
     #----------------plotting--------------------#
     #detect if low support present
@@ -109,8 +117,9 @@ plot_entropy <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line_d
                       aes(xmin=position, xmax=end, ymin=-Inf, ymax=+Inf),
                       fill='#FFECAF', alpha=ifelse(df$end == -1, 0, 0.5))+
             geom_area(mapping = aes(x = position, y = entropy,color= "k-mer Entropy", linetype="k-mer Entropy"), show.legend=F)+
-            geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"), size= (line_dot_size/10))+
-            geom_point(mapping = aes(x = position,y=lowSupportPos),col=ifelse(df$lowSupportPos==-0.5, 'black', ifelse(df$lowSupportPos==-0.3, 'white', 'white')), alpha=ifelse(df$lowSupportPos==-0.5, 1, ifelse(df$lowSupportPos==-0.3, 0,0)),pch=17)+
+            geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"), linewidth = (line_dot_size/10))+
+            geom_point(mapping = aes(x = position,y=lowSupportPos),col=ifelse(df$lowSupportPos==-0.5, 'black', ifelse(df$lowSupportPos==-0.3, 'white', 'white')), alpha=ifelse(df$lowSupportPos==-0.5, 1, ifelse(df$lowSupportPos==-0.3, 0,0)),pch=17, linewidth = (line_dot_size/10))+
+            scale_x_continuous(limits = limits_fun,breaks = breaks_fun)+
             labs(y = "k-mer entropy (bits)\n",x= "\nk-mer position (aa)",color = "#f7238a")+
             ylim(0, ymax)+
             theme_classic() +
@@ -131,9 +140,9 @@ plot_entropy <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line_d
 
         #number of host
         if (host == 1){ #one host
-            plot1 +facet_grid_sc(cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "x")
+            plot1 +facet_grid(cols=vars(df$size_f),scales = 'free',space = "free",switch = "x")
         }else{ # multi host
-            plot1 +facet_grid_sc(rows = vars(df$host),cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "both")
+            plot1 +facet_grid(rows = vars(df$host),cols=vars(df$size_f),scales = 'free',space = "free",switch = "both")
         }
 
     }else{
@@ -142,7 +151,8 @@ plot_entropy <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line_d
                       aes(xmin=position, xmax=end, ymin=-Inf, ymax=+Inf),
                       fill='#FFECAF', alpha=ifelse(df$end == -1, 0, 0.5))+
             geom_area(mapping = aes(x = position, y = entropy,color= "k-mer Entropy", linetype="k-mer Entropy"),show.legend = F)+
-            geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"),size= (line_dot_size/10))+
+            geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"), linewidth= (line_dot_size/10))+
+            scale_x_continuous(limits = limits_fun,breaks = breaks_fun)+
             labs(y = "k-mer entropy (bits)\n",x= "\nk-mer position (aa)",color = "#f7238a")+
             ylim(0, ymax)+
             theme_classic(base_size = wordsize) +
@@ -162,9 +172,9 @@ plot_entropy <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line_d
                                               "k-mer Entropy" = 1))
         #number of host
         if (host == 1){ #one host
-            plot1 +facet_grid_sc(cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "x")
+            plot1 +facet_grid(cols=vars(df$size_f),scales = 'free',space = "free",switch = "x")
         }else{ # multi host
-            plot1 +facet_grid_sc(rows = vars(df$host),cols=vars(df$size_f),scales = list(x = scales_x),space = "free",switch = "both")
+            plot1 +facet_grid(rows = vars(df$host),cols=vars(df$size_f),scales = 'free',space = "free",switch = "both")
         }
     }
 
