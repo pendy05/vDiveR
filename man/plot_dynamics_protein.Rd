@@ -35,5 +35,4 @@ in the form of dot plot(s) as well as violin plots for all the provided individu
 }
 \examples{
 plot_dynamics_protein(proteins_1host)
-plot_dynamics_protein(protein_2hosts, base_size = 8, dot_size = 3, alpha=0.1, host = 2)
 }

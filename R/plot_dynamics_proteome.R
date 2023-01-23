@@ -10,7 +10,6 @@
 #' @param alpha any number from 0 (transparent) to 1 (opaque)
 #' @return A plot
 #' @examples plot_dynamics_proteome(proteins_1host)
-#' @examples plot_dynamics_proteome(protein_2hosts, word_size = 8, dot_size = 3, alpha=0.1, host = 2)
 #' @importFrom gridExtra grid.arrange
 #' @export
 plot_dynamics_proteome <- function(df,host=1,dot_size=2,word_size=15, alpha=1/3){

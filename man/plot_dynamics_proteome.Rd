@@ -26,5 +26,4 @@ in the form of dot plot as well as violin plot for all the provided proteins at 
 }
 \examples{
 plot_dynamics_proteome(proteins_1host)
-plot_dynamics_proteome(protein_2hosts, word_size = 8, dot_size = 3, alpha=0.1, host = 2)
 }

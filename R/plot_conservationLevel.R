@@ -2,9 +2,9 @@
 #'
 #' This function plots conservation levels distribution of k-mer positions, which consists of
 #' completely conserved (black) (index incidence = 100\%), highly conserved (blue)
-#' (90\% ≤ index incidence < 100\%), mixed variable (green) (20\% < index incidence ≤ 90\%),
-#' highly diverse (purple) (10\% < index incidence ≤ 20\%) and
-#' extremely diverse (pink) (index incidence ≤ 10\%).
+#' (90\% <= index incidence < 100\%), mixed variable (green) (20\% < index incidence <= 90\%),
+#' highly diverse (purple) (10\% < index incidence <= 20\%) and
+#' extremely diverse (pink) (index incidence <= 10\%).
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param proteinOrder order of proteins displayed in plot

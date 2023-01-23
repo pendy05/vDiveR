@@ -1,7 +1,7 @@
 test_that("Test Case 1: 9-mer HCS (single host), with CSV output",{
     HCS_1host<- concat_conserved_kmer(proteins_1host)
 
-    expect_equal(nrow(HCS_1host),27)
+    expect_equal(nrow(HCS_1host),7)
     expect_equal(ncol(HCS_1host),3)
 
     col_names<-colnames(HCS_1host)
@@ -16,17 +16,17 @@ test_that("Test Case 1: 9-mer HCS (single host), with CSV output",{
     expect_equal(firstRow$Position, '1-18')
     expect_equal(firstRow$Sequence, 'MSTNPKPQRKTKRNTNRR')
 
-    #row 10
-    tenthRow <- HCS_1host[10,]
-    expect_equal(tenthRow$HCS, 'HCS_B_2')
-    expect_equal(tenthRow$Position, '154-166')
-    expect_equal(tenthRow$Sequence, 'FRAAVCTRGVAKA')
+    #row 3
+    thirdRow <- HCS_1host[3,]
+    expect_equal(thirdRow$HCS, 'HCS_A_3')
+    expect_equal(thirdRow$Position, '50-67')
+    expect_equal(thirdRow$Sequence, 'RKTSERSQPRGRRQPIPK')
 
-    #row 27
-    row27th <- HCS_1host[27,]
-    expect_equal(row27th$HCS, 'HCS_B_19')
-    expect_equal(row27th$Position, '587-603')
-    expect_equal(row27th$Sequence, 'RLKPTLHGPTPLLYRLG')
+    #last row, row 7
+    lastRow <- HCS_1host[7,]
+    expect_equal(lastRow$HCS, 'HCS_B_2')
+    expect_equal(lastRow$Position, '154-166')
+    expect_equal(lastRow$Sequence, 'FRAAVCTRGVAKA')
 })
 
 test_that("Test Case 2: 9-mer CCS (single host), with CSV output",{
@@ -51,21 +51,18 @@ test_that("Test Case 2: 9-mer CCS (single host), with CSV output",{
 test_that("Test Case 3: 9-mer HCS (single host), with FASTA output",{
     HCS_1host<- concat_conserved_kmer(proteins_1host, output_type = "fasta")
 
-    expect_equal(nrow(HCS_1host),54)
+    expect_equal(nrow(HCS_1host),14)
     expect_equal(ncol(HCS_1host),1)
 
     #randomly pick 3 FASTA to check
-    #FASTA 1
     expect_equal(HCS_1host[1,1], '>HCS_A_1')
     expect_equal(HCS_1host[2,1], 'MSTNPKPQRKTKRNTNRR')
 
-    #FASTA 10
-    expect_equal(HCS_1host[19,1], '>HCS_B_2')
-    expect_equal(HCS_1host[20,1], 'FRAAVCTRGVAKA')
+    expect_equal(HCS_1host[5,1], '>HCS_A_3')
+    expect_equal(HCS_1host[6,1], 'RKTSERSQPRGRRQPIPK')
 
-    #FASTA 27
-    expect_equal(HCS_1host[53,1], '>HCS_B_19')
-    expect_equal(HCS_1host[54,1], 'RLKPTLHGPTPLLYRLG')
+    expect_equal(HCS_1host[11,1], '>HCS_B_1')
+    expect_equal(HCS_1host[12,1], 'TSLTGRDKN')
 })
 
 test_that("Test Case 4: 9-mer CCS (single host), with FASTA output",{

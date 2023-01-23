@@ -11,7 +11,6 @@
 #' @param dot_size dot size in scatter plot
 #' @return A plot
 #' @examples plot_dynamics_protein(proteins_1host)
-#' @examples plot_dynamics_protein(protein_2hosts, base_size = 8, dot_size = 3, alpha=0.1, host = 2)
 #' @importFrom gridExtra grid.arrange
 #' @export
 plot_dynamics_protein<-function(df, host=1, proteinOrder="", base_size=8, alpha = 1/3, dot_size = 3){
@@ -29,13 +28,6 @@ plot_dynamics_protein<-function(df, host=1, proteinOrder="", base_size=8, alpha 
     }
 }
 
-
-#' plotting
-#' @param data DiMA JSON converted csv file data
-#' @param proteinOrder order of proteins displayed in plot
-#' @param base_size base font size in plot
-#' @param alpha any number from 0 (transparent) to 1 (opaque)
-#' @param dot_size dot size in scatter plot
 #' @importFrom ggplot2 guides guide_legend scale_colour_manual ggtitle element_text
 #' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
 #' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
