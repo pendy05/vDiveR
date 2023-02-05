@@ -6,6 +6,7 @@ Authors@R: c(
     person("Pendy", "Tok", email = "pendytok0518@gmail.com", role = c("aut", "cre")),
     person("Li Chuin", "Chong", role = "aut"),
     person("Evgenia", "Chikina", role = "aut"),
+    person("Leo", "Chen", role = "aut"),
     person("Mohammad Asif", "Khan", role = "aut"))
 Description: To ease the visualization of outputs from Diversity Motif Analyser ('DiMA';
     <https://github.com/PU-SDS/DiMA>). 'vDiveR' allows visualization of the diversity 
