@@ -5,23 +5,23 @@
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)
-#' @param proteinOrder order of proteins displayed in plot
+#' @param protein_order order of proteins displayed in plot
 #' @param kmer_size size of the k-mer window
 #' @param ymax maximum y-axis
 #' @param line_dot_size size of the line and dot in plot
-#' @param wordsize size of the wordings in plot
+#' @param word_size size of the wordings in plot
 #' @return A plot
 #' @examples plot_incidence(proteins_1host)
 #' @examples plot_incidence(protein_2hosts, host = 2)
 #' @importFrom ggplot2 geom_rect geom_area geom_hline geom_line facet_grid
 #' @importFrom ggplot2 sec_axis element_line scale_colour_manual scale_linetype_manual
 #' @export
-plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line_dot_size=2,wordsize=8){
+plot_incidence <- function(df,host=1,protein_order="",kmer_size=9, ymax = 10,line_dot_size=2,word_size=8){
     entropy <- end <- lowSupportPos <- totalVariants.incidence <- NULL
     #determine number of host
     #scale the amino acid position for each protein
     if (host ==1){ #single host
-        if (proteinOrder ==""){
+        if (protein_order ==""){
             a<-table(df$proteinName)
             proteinName<-as.vector(names(a))
             position<-as.vector(a)
@@ -31,7 +31,7 @@ plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line
             }, proteinName,position)
         }else{
             #order the proteins based on user input
-            level<-strsplit(proteinOrder, ',')[[1]]
+            level<-strsplit(protein_order, ',')[[1]]
             position<-c()
             for (i in level){
                 position<-append(position,table(df$proteinName)[names(table(df$proteinName)) == i])
@@ -46,7 +46,7 @@ plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line
         df$host<- factor(df$host)
         #count the aa length for each proteins (each host is expected to have same number of proteins with same length)
         df_sub<-df[df$host==unique(df$host[1]),]
-        if (proteinOrder ==""){
+        if (protein_order ==""){
             a<-table(df_sub$proteinName)
             proteinName<-as.vector(names(a))
             position<-as.vector(a)
@@ -56,7 +56,7 @@ plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line
             }, proteinName,position)
         }else{
             #order the proteins based on user input
-            level<-strsplit(proteinOrder, ',')[[1]]
+            level<-strsplit(protein_order, ',')[[1]]
             position<-c()
             for (i in level){
                 position<-append(position,table(df_sub$proteinName)[names(table(df_sub$proteinName)) == i])
@@ -167,7 +167,7 @@ plot_incidence <- function(df,host=1,proteinOrder="",kmer_size=9, ymax = 10,line
             #how to second y-axis: https://whatalnk.github.io/r-tips/ggplot2-rbind.nb.html
             scale_y_continuous(sec.axis = sec_axis(~ . * 100 / ymax , name = "Total variants (%)",breaks = c(0,25,50,75,100),labels=c("0","25","50","75","100")),
                                breaks = seq(0.0, ymax, length.out = 5),labels= sprintf(seq(0.0, ymax, length.out = 5), fmt = "%.1f")) +
-            theme_classic(base_size = wordsize) +
+            theme_classic(base_size = word_size) +
             theme(
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank(),
