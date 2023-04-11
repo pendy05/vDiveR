@@ -113,108 +113,70 @@ plot_entropy <- function(df,host=1,protein_order="",kmer_size=9, ymax = 10,line_
     }
 
     #----------------plotting--------------------#
-    #detect if low support present
+    df$lowSupportPos <- -0.3
+    df$lowSupportPos[df$lowSupport ==TRUE]<- -0.5
+
+    plot1<-ggplot(df) +
+        geom_area(mapping = aes(x = position, y = entropy,color= "k-mer Entropy", linetype="k-mer Entropy"), show.legend=F)+
+        geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"), linewidth= (line_dot_size/10))+
+        labs(y = "k-mer entropy (bits)\n",x= "\nk-mer position (aa)",color = "#f7238a")+
+        scale_x_continuous(limits = limits_fun,breaks = breaks_fun)+
+        theme_classic() +
+        theme(
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.line.y.right = element_line(color = "#f7238a"),
+            axis.ticks.y.right = element_line(color = "#f7238a"),
+            axis.title.y.right =  element_text(color = "#f7238a"),
+            legend.position="bottom"
+        )+
+        scale_colour_manual("",
+                            values = c("Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"="black",
+                                        "k-mer Entropy" = "black"),
+                            guide = guide_legend(override.aes=aes(fill=NA)))+
+        scale_linetype_manual("",values=c("Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"=5,
+                                            "k-mer Entropy" = 1))
+
+        
+    # detect if low support present
     if (TRUE %in% df$lowSupport){
-        df$lowSupportPos <- -0.3
-        df$lowSupportPos[df$lowSupport ==TRUE]<- -0.5
-        plot1<-ggplot(df) +
-            geom_area(mapping = aes(x = position, y = entropy,color= "k-mer Entropy", linetype="k-mer Entropy"), show.legend=F)+
-            geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"), linewidth = (line_dot_size/10))+
-            geom_point(mapping = aes(x = position,y=lowSupportPos),col=ifelse(df$lowSupportPos==-0.5, 'black', ifelse(df$lowSupportPos==-0.3, 'white', 'white')), alpha=ifelse(df$lowSupportPos==-0.5, 1, ifelse(df$lowSupportPos==-0.3, 0,0)),pch=17, linewidth = (line_dot_size/10))+
-            scale_x_continuous(limits = limits_fun,breaks = breaks_fun)+
-            labs(y = "k-mer entropy (bits)\n",x= "\nk-mer position (aa)",color = "#f7238a")+
-            ylim(0, ymax)+
-            theme_classic() +
-            theme(
-                panel.grid.major = element_blank(),
-                panel.grid.minor = element_blank(),
-                axis.line.y.right = element_line(color = "#f7238a"),
-                axis.ticks.y.right = element_line(color = "#f7238a"),
-                axis.title.y.right =  element_text(color = "#f7238a"),
-                legend.position="bottom"
-            )+
-            scale_colour_manual("",
-                                values = c("Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"="black",
-                                           "k-mer Entropy" = "black"),
-                                guide = guide_legend(override.aes=aes(fill=NA)))+
-            scale_linetype_manual("",values=c("Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"=5,
-                                              "k-mer Entropy" = 1))
-
-        if(highlight_zero_entropy){
-            plot1<- plot1+ geom_rect(inherit.aes = FALSE,
-                      aes(xmin=position, xmax=end, ymin=-Inf, ymax=+Inf),
-                      fill='#FFECAF', alpha=ifelse(df$end == -1, 0, 0.5))
-        }
-
-        if(all){
-            plot1<- plot1 + 
-                geom_line(mapping = aes(x = position, y = totalVariants.incidence * ymax / 100, color = "Total Variants",linetype="Total Variants"), linewidth= (line_dot_size/10) )+
-                geom_hline(mapping = aes( yintercept=98* ymax / 100, color = "Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)",linetype ="Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"), linewidth= (line_dot_size/10))
-        }
-
-        #number of host
-        if (host == 1){ #one host
-            plot1 +facet_grid(cols=vars(df$size_f),scales = 'free',space = "free",switch = "x")
-        }else{ # multi host
-            plot1 +facet_grid(rows = vars(df$host),cols=vars(df$size_f),scales = 'free',space = "free",switch = "both")
-        }
-
-    }else{
-        plot1<-ggplot(df) +
-            geom_area(mapping = aes(x = position, y = entropy,color= "k-mer Entropy", linetype="k-mer Entropy"),show.legend = F)+
-            geom_hline(mapping = aes(yintercept=9.2, color = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)", linetype = "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"), linewidth= (line_dot_size/10))+
-            scale_x_continuous(limits = limits_fun,breaks = breaks_fun)+
-            labs(y = "k-mer entropy (bits)\n",x= "\nk-mer position (aa)",color = "#f7238a")+
-            ylim(0, ymax)+
-            theme_classic(base_size = word_size) +
-            theme(
-                panel.grid.major = element_blank(),
-                panel.grid.minor = element_blank(),
-                axis.line.y.right = element_line(color = "#f7238a"),
-                axis.ticks.y.right = element_line(color = "#f7238a"),
-                axis.title.y.right =  element_text(color = "#f7238a"),
-                legend.position="bottom"
-            )+
-            scale_colour_manual("",
-                                values = c("Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"="black",
-                                           "k-mer Entropy" = "black"),
-                                guide = guide_legend(override.aes=aes(fill=NA)))+
-            scale_linetype_manual("",values=c("Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"=5,
-                                              "k-mer Entropy" = 1))
-
-        #highlight region with zero entropy, covering from the starting to ending positions
-        if(highlight_zero_entropy){
-            plot1<- plot1+ geom_rect(inherit.aes = FALSE,
-                      aes(xmin=position, xmax=end, ymin=-Inf, ymax=+Inf),
-                      fill='#FFECAF', alpha=ifelse(df$end == -1, 0, 0.5))
-        }
-
-        #plot both entropy and total variants
-        if(all){ 
-            plot1<- plot1 + geom_line(mapping = aes(x = position, y = totalVariants.incidence * ymax / 100, color = "Total Variants",linetype="Total Variants"), linewidth= (line_dot_size/10) )+
-            geom_hline(mapping = aes( yintercept=98* ymax / 100, color = "Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)",linetype ="Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"), linewidth= (line_dot_size/10))+
-            #how to second y-axis: https://whatalnk.github.io/r-tips/ggplot2-rbind.nb.html
-            scale_y_continuous(sec.axis = sec_axis(~ . * 100 / ymax , name = "Total variants (%)",breaks = c(0,25,50,75,100),labels=c("0","25","50","75","100")),
-                               breaks = seq(0.0, ymax, length.out = 5),labels= sprintf(seq(0.0, ymax, length.out = 5), fmt = "%.1f")) +
-            scale_colour_manual("",
-                                values = c("Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"="#f7238a",
-                                           "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"="black",
-                                           "k-mer Entropy" = "black",
-                                           "Total Variants"="#f7238a"),
-                                guide = guide_legend(override.aes=aes(fill=NA)))+
-            scale_linetype_manual("",values=c("Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"=5,
-                                              "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"=5,
-                                              "k-mer Entropy" = 1,
-                                              "Total Variants"=1))
-        }
-
-        #number of host
-        if (host == 1){ #one host
-            plot1 +facet_grid(cols=vars(df$size_f),scales = 'free',space = "free",switch = "x")
-        }else{ # multi host
-            plot1 +facet_grid(rows = vars(df$host),cols=vars(df$size_f),scales = 'free',space = "free",switch = "both")
-        }
+        plot1 <- plot1 +
+            geom_point(mapping = aes(x = position,y=lowSupportPos),col=ifelse(df$lowSupportPos==-0.5, 'black', ifelse(df$lowSupportPos==-0.3, 'white', 'white')), alpha=ifelse(df$lowSupportPos==-0.5, 1, ifelse(df$lowSupportPos==-0.3, 0,0)),pch=17)
     }
 
+
+    # highlight region with zero entropy    
+    if(highlight_zero_entropy){
+        plot1<- plot1+ 
+            geom_rect(inherit.aes = FALSE,
+            aes(xmin=position, xmax=end, ymin=-Inf, ymax=+Inf),
+                fill='#FFECAF', alpha=ifelse(df$end == -1, 0, 0.5))
+    }
+
+    # plot both entropy and total variants
+    if(all){
+        plot1<- plot1 + geom_line(mapping = aes(x = position, y = totalVariants.incidence * ymax / 100, color = "Total Variants",linetype="Total Variants"), linewidth= (line_dot_size/10) )+
+        geom_hline(mapping = aes( yintercept=98* ymax / 100, color = "Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)",linetype ="Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"), linewidth= (line_dot_size/10))+
+        #how to second y-axis: https://whatalnk.github.io/r-tips/ggplot2-rbind.nb.html
+        scale_y_continuous(sec.axis = sec_axis(~ . * 100 / ymax , name = "Total variants (%)",breaks = c(0,25,50,75,100),labels=c("0","25","50","75","100")),
+                            breaks = seq(0.0, ymax, length.out = 5),labels= sprintf(seq(0.0, ymax, length.out = 5), fmt = "%.1f")) +
+        scale_colour_manual("",
+                            values = c("Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"="#f7238a",
+                                        "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"="black",
+                                        "k-mer Entropy" = "black",
+                                        "Total Variants"="#f7238a"),
+                            guide = guide_legend(override.aes=aes(fill=NA)))+
+        scale_linetype_manual("",values=c("Reference: Maximum Total Variants (98%) for HIV-1 Clade B (Env Protein)"=5,
+                                            "Reference: Maximum Entropy (9.2) for HIV-1 Clade B (Env Protein)"=5,
+                                            "k-mer Entropy" = 1,
+                                            "Total Variants"=1))
+    }
+
+    #number of host
+    if (host == 1){ #one host
+        plot1 +facet_grid(cols=vars(df$size_f),scales = 'free',space = "free",switch = "x")
+    }else{ # multi host
+        plot1 +facet_grid(rows = vars(df$host),cols=vars(df$size_f),scales = 'free',space = "free",switch = "both")
+    }
 
 }
