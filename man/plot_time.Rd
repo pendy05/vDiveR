@@ -2,22 +2,28 @@
 % Please edit documentation in R/plot_time.R
 \name{plot_time}
 \alias{plot_time}
-\title{plot the time of collection via metadata}
+\title{Time Distribution of Sequences Plot}
 \usage{
 plot_time(meta)
 }
 \arguments{
-\item{meta}{sequence metadata from 'metadata_extraction' function or user provided, the format of metadata can refer to built-in data, "metadata".}
+\item{meta}{a dataframe with 3 columns, 'ID', 'country', and 'date'}
 }
 \value{
 A plot
 }
 \description{
-This function plot the time of collection via metadata
+This function plots the time distribution of provided sequences in the form of bar plot with 'Month' as x-axis and 
+'sequence recorded' as y-axis.
 }
 \examples{
-filepath <- system.file('inst/extdata','prot_NCBIProtein.fasta', package = 'vDiveR')
-meta <- metadata_extraction(filepath, 'ncbi')
-plot_time(meta)
+filepath <- system.file('extdata','NCBI_Protein.faa', package = 'vDiveR')
+meta_ncbi <- metadata_extraction(filepath, 'ncbi')
+plot_time(meta_ncbi)
+
+filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
+meta_gisaid <- metadata_extraction(filepath, 'GISAID')
+plot_time(meta_gisaid)
+
 plot_time(metadata)
 }
