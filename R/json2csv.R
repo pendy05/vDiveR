@@ -7,7 +7,7 @@
 #' @param host_name name of the host species
 #' @param protein_name name of the protein
 #' @return A dataframe which acts as input for the other functions in vDiveR package
-#' @examples inputdf<-json2csv(JSONsample)
+#' @examples inputdf<-json2csv(JSON_sample)
 #' @importFrom stats aggregate
 #' @importFrom dplyr mutate_if right_join distinct
 #' @importFrom tidyr replace_na

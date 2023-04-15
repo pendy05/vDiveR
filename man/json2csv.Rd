@@ -25,5 +25,5 @@ This function converts DiMA (v4.1.1) JSON output file to a dataframe with 17
 predefined columns which further acts as the input for other functions provided in this vDiveR package.
 }
 \examples{
-inputdf<-json2csv(JSONsample)
+inputdf<-json2csv(JSON_sample)
 }
