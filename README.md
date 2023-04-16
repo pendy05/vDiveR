@@ -3,6 +3,7 @@
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/vDiveR)](https://CRAN.R-project.org/package=vDiveR)
+[![R-CMD-check](https://github.com/pendy05/DiveR_Rpackage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pendy05/DiveR_Rpackage/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
 
@@ -26,5 +27,7 @@ devtools::install_github("pendy05/vDiveR")
 
 ## VDiveR Functions Overview
 
-<img src="man/figures/vdiver_overview_chart.png" alt="overview on vDiveR functions." />
+<p align="center">
+<img src="man/figures/vdiver_overview_chart.png" alt="overview on vDiveR functions." height="700"/>
+</p>
 Figure 1: vDiveR functions. In the image above, purpose of each function together with its main arguments is shown. The dataframe returned from the respective functions are colored in orange.
