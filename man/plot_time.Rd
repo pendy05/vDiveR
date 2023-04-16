@@ -14,16 +14,9 @@ A plot
 }
 \description{
 This function plots the time distribution of provided sequences in the form of bar plot with 'Month' as x-axis and 
-'sequence recorded' as y-axis.
+'sequence recorded' as y-axis. The input dataframe of this function is obtainable from metadata_extraction(), with NCBI 
+Protein / GISAID EpiCoV FASTA file as input.
 }
 \examples{
-filepath <- system.file('extdata','NCBI_Protein.faa', package = 'vDiveR')
-meta_ncbi <- metadata_extraction(filepath, 'ncbi')
-plot_time(meta_ncbi)
-
-filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
-meta_gisaid <- metadata_extraction(filepath, 'GISAID')
-plot_time(meta_gisaid)
-
 plot_time(metadata)
 }

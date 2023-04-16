@@ -1,18 +1,13 @@
 #' Geographical Distribution of Sequences Plot
 #'
 #' This function plots a worldmap and color the affected geographical region(s)
-#' from light (lower) to dark (higher), depends on the cumulative number of sequences.
-#'
+#' from light (lower) to dark (higher), depends on the cumulative number of sequences. 
+#' The input dataframe of this function is obtainable from metadata_extraction(), with NCBI 
+#' Protein / GISAID EpiCoV FASTA file as input.
+
 #' @param meta a dataframe with 3 columns, 'ID', 'country', and 'date'
 #' @return  A plot
-#' @examples filepath <- system.file('extdata','NCBI_Protein.faa', package = 'vDiveR')
-#' @examples meta_ncbi <- metadata_extraction(filepath, 'ncbi')
-#' @examples plot_worldmap(meta_ncbi)
-#' 
-#' @examples filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
-#' @examples meta_gisaid <- metadata_extraction(filepath, 'GISAID')
-#' @examples plot_worldmap(meta_gisaid)
-#' 
+#'
 #' @examples plot_worldmap(metadata)
 #' @importFrom ggplot2 geom_polygon scale_fill_gradient map_data
 #' @importFrom dplyr left_join

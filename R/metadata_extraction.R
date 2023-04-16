@@ -1,15 +1,11 @@
 #' Metadata Extraction from NCBI/GISAID EpiCoV FASTA file
 #'
 #' This function retrieves metadata (ID, country, date) from the input FASTA file, with the source of, either 
-#' NCBI (with default FASTA header) or
-#' GISAID (with default FASTA header).
+#' NCBI (with default FASTA header) or GISAID (with default FASTA header).
 #'
 #' @param file_path path of fasta file
 #' @param source the source of fasta file, either "ncbi" or "GISAID"
 #' @return  A dataframe that has three columns consisting ID, collected country and collected date
-#' @examples filepath <- system.file('extdata','NCBI_Protein.faa', package = 'vDiveR')
-#' @examples meta_ncbi <- metadata_extraction(filepath, 'ncbi')
-#'
 #' @examples filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
 #' @examples meta_gisaid <- metadata_extraction(filepath, 'GISAID')
 #' @export

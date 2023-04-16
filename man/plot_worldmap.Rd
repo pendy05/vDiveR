@@ -14,16 +14,10 @@ A plot
 }
 \description{
 This function plots a worldmap and color the affected geographical region(s)
-from light (lower) to dark (higher), depends on the cumulative number of sequences.
+from light (lower) to dark (higher), depends on the cumulative number of sequences. 
+The input dataframe of this function is obtainable from metadata_extraction(), with NCBI 
+Protein / GISAID EpiCoV FASTA file as input.
 }
 \examples{
-filepath <- system.file('extdata','NCBI_Protein.faa', package = 'vDiveR')
-meta_ncbi <- metadata_extraction(filepath, 'ncbi')
-plot_worldmap(meta_ncbi)
-
-filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
-meta_gisaid <- metadata_extraction(filepath, 'GISAID')
-plot_worldmap(meta_gisaid)
-
 plot_worldmap(metadata)
 }

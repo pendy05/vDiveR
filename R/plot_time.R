@@ -1,18 +1,11 @@
 #' Time Distribution of Sequences Plot
 #'
 #' This function plots the time distribution of provided sequences in the form of bar plot with 'Month' as x-axis and 
-#' 'sequence recorded' as y-axis.
+#' 'sequence recorded' as y-axis. The input dataframe of this function is obtainable from metadata_extraction(), with NCBI 
+#' Protein / GISAID EpiCoV FASTA file as input.
 #'
 #' @param meta a dataframe with 3 columns, 'ID', 'country', and 'date'
 #' @return  A plot
-#'
-#' @examples filepath <- system.file('extdata','NCBI_Protein.faa', package = 'vDiveR')
-#' @examples meta_ncbi <- metadata_extraction(filepath, 'ncbi')
-#' @examples plot_time(meta_ncbi)
-#' 
-#' @examples filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
-#' @examples meta_gisaid <- metadata_extraction(filepath, 'GISAID')
-#' @examples plot_time(meta_gisaid)
 #' 
 #' @examples plot_time(metadata)
 #' @importFrom ggplot2 scale_x_date
