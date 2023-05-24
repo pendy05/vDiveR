@@ -9,10 +9,10 @@
 #' @param conservation_level CCS (completely conserved) / HCS (highly conserved)
 #' @param kmer size of the k-mer window
 #' @param threshold_pct manually set threshold of index.incidence for HCS 
-#' @return A dataframe
-#' @examples csv<-concat_conserved_kmer(proteins_1host)
-#' @examples csv_2hosts<-concat_conserved_kmer(protein_2hosts, conservation_level = "CCS")
-#' @examples fasta <- concat_conserved_kmer(protein_2hosts, output_type = "fasta", conservation_level = "HCS")
+#' @return A list wit csv and fasta dataframes
+#' @examples csv<-concat_conserved_kmer(proteins_1host)$csv
+#' @examples csv_2hosts<-concat_conserved_kmer(protein_2hosts, conservation_level = "CCS")$csv
+#' @examples fasta <- concat_conserved_kmer(protein_2hosts, conservation_level = "HCS")$fasta
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter select summarise group_by slice bind_rows mutate n
 #' @importFrom stringr str_sub
