@@ -6,7 +6,7 @@
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)
 #' @param alpha any number from 0 (transparent) to 1 (opaque)
-#' @param size dot size in scatter plot
+#' @param line_dot_size dot size in scatter plot
 #' @param ylabel y-axis label
 #' @param xlabel x-axis label
 #' @param ymax maximum y-axis
@@ -18,13 +18,21 @@
 #' @importFrom grid unit
 #' @importFrom dplyr vars
 #' @export
-plot_correlation <- function(df, host = 1 , alpha = 1/3, size = 3, ylabel = "k-mer entropy (bits)\n", xlabel = "\nTotal variants (%)", ymax = ceiling(max(df$entropy)) ,ybreak=0.5){
+plot_correlation <- function(df, 
+                             host = 1 , 
+                             alpha = 1/3, 
+                             line_dot_size = 3, 
+                             base_size = 11,
+                             ylabel = "k-mer entropy (bits)\n", 
+                             xlabel = "\nTotal variants (%)", 
+                             ymax = ceiling(max(df$entropy)),
+                             ybreak=0.5){
     totalVariants.incidence <- entropy <- NULL
-    plot2<-ggplot(df)+geom_point(mapping = aes(x=totalVariants.incidence,y=entropy),alpha=alpha,size=size)+
+    plot2<-ggplot(df)+geom_point(mapping = aes(x=totalVariants.incidence,y=entropy),alpha=alpha,size=line_dot_size)+
         labs(y = ylabel,x= xlabel)+
         scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
         scale_y_continuous(limits = c(0, ymax), breaks = seq(0, ymax, ybreak))+
-        theme_classic()+
+        theme_classic(base_size = base_size)+
         theme(
             panel.border = element_rect(colour = "#000000", fill=NA, size=1)
         )
