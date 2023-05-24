@@ -19,7 +19,15 @@
 #' @importFrom ggplot2 geom_rect geom_area geom_hline geom_line facet_grid
 #' @importFrom ggplot2 sec_axis element_line scale_colour_manual scale_linetype_manual
 #' @export
-plot_entropy <- function(df,host=1,protein_order="",kmer_size=9, ymax = 10,line_dot_size=2,word_size=8, all= TRUE, highlight_zero_entropy=TRUE){
+plot_entropy <- function(df,
+                         host=1,
+                         protein_order="",
+                         kmer_size=9, 
+                         ymax = 10,
+                         line_dot_size=2,
+                         word_size=8,
+                         all= TRUE, 
+                         highlight_zero_entropy=TRUE){
     entropy <- end <- lowSupportPos <- totalVariants.incidence <- NULL
     #determine number of host
     #scale the amino acid position for each protein
