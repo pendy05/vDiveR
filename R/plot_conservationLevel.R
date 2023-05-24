@@ -11,6 +11,7 @@
 #' @param conservation_label 0 (partial; show present conservation labels only) or 1 (full; show ALL conservation labels) in plot
 #' @param host number of host (1/2)
 #' @param base_size base font size in plot
+#' @param line_dot_size lines and dots size
 #' @param label_size conservation labels font size
 #' @param alpha any number from 0 (transparent) to 1 (opaque)
 #' @examples plot_conservationLevel(proteins_1host, conservation_label = 1,alpha=0.8, base_size = 15)
