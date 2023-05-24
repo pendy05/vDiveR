@@ -11,8 +11,9 @@
 #' @param xlabel x-axis label
 #' @param ymax maximum y-axis
 #' @param ybreak y-axis breaks
+#' @param base_size base font size in plot
 #' @examples plot_correlation(proteins_1host)
-#' @examples plot_correlation(protein_2hosts, size = 2, ybreak=1, ymax=10, host = 2)
+#' @examples plot_correlation(protein_2hosts, base_size = 2, ybreak=1, ymax=10, host = 2)
 #' @return A scatter plot
 #' @importFrom ggplot2 ggplot geom_point aes labs scale_x_continuous scale_y_continuous theme_classic theme element_rect facet_grid
 #' @importFrom grid unit

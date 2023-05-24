@@ -25,6 +25,8 @@ plot_correlation(
 
 \item{line_dot_size}{dot size in scatter plot}
 
+\item{base_size}{base font size in plot}
+
 \item{ylabel}{y-axis label}
 
 \item{xlabel}{x-axis label}
@@ -42,5 +44,5 @@ of all the provided protein(s).
 }
 \examples{
 plot_correlation(proteins_1host)
-plot_correlation(protein_2hosts, size = 2, ybreak=1, ymax=10, host = 2)
+plot_correlation(protein_2hosts, base_size = 2, ybreak=1, ymax=10, host = 2)
 }
