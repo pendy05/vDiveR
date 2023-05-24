@@ -38,6 +38,7 @@ plot_dynamics_proteome <- function(df,
 plot3<-function(data,
                 line_dot_size=2,
                 base_size=15,
+                host = 1,
                 alpha=1/3){
     Total_Variants <- Incidence <- Group <- x <- NULL
     plot3_data<-data.frame()
