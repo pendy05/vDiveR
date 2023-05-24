@@ -21,7 +21,7 @@ plot_dynamics_protein<-function(df,
                                 line_dot_size = 3){
     #single host
     if (host == 1){
-        plot4_5(df,protein_order, alpha, line_dot_size, base_size)
+        plot4_5(df,protein_order, alpha, line_dot_size, base_size, host=host)
     }else{ #multihost
         #split the data into multiple subsets (if multiple hosts detected)
         plot4_list<-split(df,df$host)
@@ -37,7 +37,7 @@ plot_dynamics_protein<-function(df,
 #' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
 #' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
 #' @importFrom ggpubr annotate_figure ggarrange text_grob
-plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8){
+plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8, host=1){
     Total_Variants <- Incidence <- Group <- x <- proteinName <- entropy <- NULL
 
     plot4_data<-data.frame()
