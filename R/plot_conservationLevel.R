@@ -64,6 +64,7 @@ plot_plot7<- function(data,
                       protein_order="",
                       conservation_label=1, 
                       base_size = 11, 
+                      line_dot_size = 2,
                       label_size = 2.6, 
                       alpha =0.6){
     proteinName <- Total <- index.incidence <- NULL
