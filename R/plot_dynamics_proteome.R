@@ -5,7 +5,7 @@
 #'
 #' @param df DiMA JSON converted csv file data
 #' @param host number of host (1/2)
-#' @param dot_size size of dot in plot
+#' @param line_dot_size size of dot in plot
 #' @param base_size word size in plot
 #' @param alpha any number from 0 (transparent) to 1 (opaque)
 #' @return A plot
@@ -77,7 +77,7 @@ plot3<-function(data,
     }
     
     #plotting 3a
-    plot3a<-ggplot()+geom_point(plot3_data,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=alpha,size= dot_size)+
+    plot3a<-ggplot()+geom_point(plot3_data,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=alpha,size= line_dot_size)+
         geom_point(plot3_data,mapping = aes(x =Total_Variants,y=Incidence),col=ifelse(plot3_data$multiIndex== TRUE & plot3_data$Group== "Index", 'red', ifelse(plot3_data$multiIndex== FALSE, 'white', 'white')), alpha=ifelse(plot3_data$multiIndex ==TRUE & plot3_data$Group== "Index", 1, ifelse(plot3_data$multiIndex== TRUE, 0,0)),pch=1,size=3,stroke=1.05)+ #multiIndex
         scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
         scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
