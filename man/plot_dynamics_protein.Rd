@@ -10,7 +10,7 @@ plot_dynamics_protein(
   protein_order = "",
   base_size = 8,
   alpha = 1/3,
-  dot_size = 3
+  line_dot_size = 3
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ plot_dynamics_protein(
 
 \item{alpha}{any number from 0 (transparent) to 1 (opaque)}
 
-\item{dot_size}{dot size in scatter plot}
+\item{line_dot_size}{dot size in scatter plot}
 }
 \value{
 A plot
