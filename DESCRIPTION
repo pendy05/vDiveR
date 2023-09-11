@@ -1,7 +1,7 @@
 Package: vDiveR
 Type: Package
 Title: Visualization of Viral Protein Sequence Diversity Dynamics
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person("Pendy", "Tok", email = "pendytok0518@gmail.com", role = c("aut", "cre")),
     person("Li Chuin", "Chong", role = "aut"),
