@@ -9,7 +9,9 @@ plot_dynamics_proteome(
   host = 1,
   line_dot_size = 2,
   base_size = 15,
-  alpha = 1/3
+  alpha = 1/3,
+  bw = "nrd0",
+  adjust = 1
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ plot_dynamics_proteome(
 \item{base_size}{word size in plot}
 
 \item{alpha}{any number from 0 (transparent) to 1 (opaque)}
+
+\item{bw}{smoothing bandwidth of violin plot (default: nrd0)}
+
+\item{adjust}{adjust the width of violin plot (default: 1)}
 }
 \value{
 A plot

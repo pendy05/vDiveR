@@ -8,6 +8,8 @@
 #' @param line_dot_size size of dot in plot
 #' @param base_size word size in plot
 #' @param alpha any number from 0 (transparent) to 1 (opaque)
+#' @param bw smoothing bandwidth of violin plot (default: nrd0)
+#' @param adjust adjust the width of violin plot (default: 1)
 #' @return A plot
 #' @examples plot_dynamics_proteome(proteins_1host)
 #' @importFrom gridExtra grid.arrange
@@ -16,14 +18,16 @@ plot_dynamics_proteome <- function(df,
                                    host=1,
                                    line_dot_size=2,
                                    base_size=15, 
-                                   alpha=1/3){
+                                   alpha=1/3,
+                                   bw = "nrd0",
+                                   adjust = 1){
     #single host
     if (host == 1){
-        plot3(df, line_dot_size, base_size, alpha)
+        plot3(data=df,  base_size= base_size, alpha=alpha, line_dot_size=line_dot_size, bw = bw, adjust = adjust)
     }else{ #multihost
         #split the data into multiple subsets (if multiple hosts detected)
         plot3_list<-split(df,df$host)
-        plot3_multihost<-lapply(plot3_list, plot3, line_dot_size, base_size,alpha)
+        plot3_multihost<-lapply(plot3_list, plot3, line_dot_size, base_size, alpha, bw, adjust)
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
@@ -39,12 +43,14 @@ plot3<-function(data,
                 line_dot_size=2,
                 base_size=15,
                 host = 1,
-                alpha=1/3){
+                alpha=1/3,
+                bw = "nrd0", 
+                adjust = 1){
+
     Total_Variants <- Incidence <- Group <- x <- NULL
     plot3_data<-data.frame()
     group_names<-c("Index",
-                   "Major","Minor",
-                   "Unique",
+                   "Major", "Minor", "Unique",
                    "Total variants","Distinct variants")
 
     #transpose the data format
@@ -106,7 +112,9 @@ plot3<-function(data,
     variants_max_yaxis<-ceiling((max(as.numeric(variants$Incidence))/10))*10
 
     #plot 3b
-    plot3b_index<-ggplot(index, aes(x=Group,y=Incidence))+geom_violin(color="black",fill="black",scale="width")+geom_boxplot(width=0.08,alpha=0.20,fill="white",outlier.shape=NA,color="white")+
+    plot3b_index<-ggplot(index, aes(x=Group,y=Incidence))+
+        geom_violin(color="black",fill="black",alpha=0.9, adjust=adjust, bw=bw)+
+        geom_boxplot(width=0.08,alpha=0.20,fill="white",outlier.shape=NA,color="white")+
         ylim(c(0,100))+
         labs(y=NULL,x="Index")+
         theme_classic(base_size = base_size)+
@@ -116,7 +124,9 @@ plot3<-function(data,
             axis.ticks.x = element_blank())+
         scale_color_grey()
 
-    plot3b_tv<-ggplot(index, aes(x=Group,y=Total_Variants))+geom_violin(color="#f7238a",fill="#f7238a")+geom_boxplot(width=0.08,alpha=0.20,color="black",fill="white",outlier.shape=NA)+
+    plot3b_tv<-ggplot(index, aes(x=Group,y=Total_Variants))+
+        geom_violin(color="#f7238a",fill="#f7238a", alpha=0.9, adjust=adjust, bw=bw)+
+        geom_boxplot(width=0.08,alpha=0.20,color="black",fill="white",outlier.shape=NA)+
         ylim(c(0,100))+
         labs(y=NULL,x="Total Variants")+
         theme_classic(base_size = base_size)+
@@ -129,7 +139,9 @@ plot3<-function(data,
             axis.text.x  = element_blank(),
             axis.ticks = element_blank())
 
-    plot3b_nonatype<-ggplot(nonatypes, aes(x=Group,y=Incidence))+geom_violin(color="#c2c7cb",fill="#c2c7cb")+geom_boxplot(width=0.08,alpha=0.20,fill="white",outlier.shape=NA)+
+    plot3b_nonatype<-ggplot(nonatypes, aes(x=Group,y=Incidence))+
+        geom_violin(color="#c2c7cb",fill="#c2c7cb", alpha=0.9, adjust=adjust, bw=bw)+
+        geom_boxplot(width=0.08,alpha=0.20,fill="white",outlier.shape=NA)+
         ylim(c(0,100))+
         labs(y=NULL,x="Distinct variants")+
         theme_classic(base_size = base_size)+
@@ -139,7 +151,8 @@ plot3<-function(data,
             axis.text.x  = element_blank(),
             axis.ticks = element_blank())
 
-    plot3b_variants<-ggplot(variants)+geom_violin(mapping=aes(x=x,y=Incidence,color=Group,fill=Group))+
+    plot3b_variants<-ggplot(variants)+
+        geom_violin(mapping=aes(x=x,y=Incidence,color=Group,fill=Group),alpha=0.9, adjust=adjust, bw=bw)+
         geom_boxplot(mapping = aes(x=x,y=Incidence),width=0.08,alpha=0.20,fill="white",outlier.shape=NA)+
         scale_y_continuous(position = "right",limits = c(0,variants_max_yaxis))+
         theme_classic(base_size = base_size-2)+

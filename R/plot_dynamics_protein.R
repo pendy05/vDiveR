@@ -9,6 +9,8 @@
 #' @param base_size base font size in plot
 #' @param alpha any number from 0 (transparent) to 1 (opaque)
 #' @param line_dot_size dot size in scatter plot
+#' @param bw smoothing bandwidth of violin plot (default: nrd0)
+#' @param adjust adjust the width of violin plot (default: 1)
 #' @return A plot
 #' @examples plot_dynamics_protein(proteins_1host)
 #' @importFrom gridExtra grid.arrange
@@ -18,14 +20,16 @@ plot_dynamics_protein<-function(df,
                                 protein_order="", 
                                 base_size=8, 
                                 alpha = 1/3, 
-                                line_dot_size = 3){
+                                line_dot_size = 3,
+                                bw = "nrd0",
+                                adjust = 1){
     #single host
     if (host == 1){
-        plot4_5(df,protein_order, alpha, line_dot_size, base_size, host=host)
+        plot4_5(data=df, protein_order=protein_order, base_size=base_size,alpha=alpha,  line_dot_size=line_dot_size, bw = bw, adjust = adjust)
     }else{ #multihost
         #split the data into multiple subsets (if multiple hosts detected)
         plot4_list<-split(df,df$host)
-        plot4_multihost<-lapply(plot4_list,plot4_5,protein_order, alpha, line_dot_size, base_size)
+        plot4_multihost<-lapply(plot4_list,plot4_5,protein_order, alpha, line_dot_size, base_size, host, bw, adjust)
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
@@ -37,7 +41,7 @@ plot_dynamics_protein<-function(df,
 #' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
 #' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
 #' @importFrom ggpubr annotate_figure ggarrange text_grob
-plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8, host=1){
+plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8, host=1, bw = "nrd0", adjust = 1){
     Total_Variants <- Incidence <- Group <- x <- proteinName <- entropy <- NULL
 
     plot4_data<-data.frame()
@@ -98,7 +102,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
   
       #plot 5
       plot5_index<-ggplot(index, aes(x=proteinName, y=Incidence))+
-          geom_violin(fill="black",trim = FALSE, color="black",alpha=0.9)+ylim(0,100)+ylab("Index k-mer (%)")+xlab("") +theme_bw() +
+          geom_violin(fill="black",trim = TRUE, color="black",alpha=0.9, adjust=adjust, bw=bw)+ylim(0,100)+ylab("Index k-mer (%)")+xlab("") +theme_bw() +
           geom_boxplot(outlier.shape = NA,width=0.05, color="white",alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
@@ -106,7 +110,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
                 axis.ticks.x = element_blank())
   
       plot5_tv<-ggplot(index, aes(x=proteinName, y=Total_Variants))+
-          geom_violin(fill="#f7238a",trim = FALSE, color="#f7238a",alpha=0.9)+ylim(0,100)+ylab("Total variant (%)")+xlab("") +theme_bw() +
+          geom_violin(fill="#f7238a",trim = TRUE, color="#f7238a",alpha=0.9, adjust=adjust, bw=bw)+ylim(0,100)+ylab("Total variant (%)")+xlab("") +theme_bw() +
           geom_boxplot(outlier.shape = NA,width=0.05, color="black",alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0.1,0.1), "cm"),
@@ -114,7 +118,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
                 axis.ticks.x = element_blank())
   
       plot5_major<-ggplot(major, aes(x=proteinName, y=Incidence)) +
-          geom_violin(fill="#37AFAF",trim = FALSE, color="#37AFAF")+ylim(0,variants_max_yaxis)+ylab("Major variant (%)")+xlab("")+theme_bw() +
+          geom_violin(fill="#37AFAF",trim = TRUE, color="#37AFAF", adjust=adjust, bw=bw)+ylim(0,variants_max_yaxis)+ylab("Major variant (%)")+xlab("")+theme_bw() +
           geom_boxplot(outlier.shape = NA,width=0.04, color="black", alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
@@ -123,7 +127,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
                 axis.text.y  = element_text(face="bold"))
   
       plot5_minor<-ggplot(minor, aes(x=proteinName, y=Incidence))+
-          geom_violin(fill="#42aaff",trim = FALSE,color="#42aaff")+ylim(0,variants_max_yaxis)+ylab("Minor variants (%)")+xlab("") +theme_bw() +
+          geom_violin(fill="#42aaff",trim = TRUE,color="#42aaff", adjust=adjust, bw=bw)+ylim(0,variants_max_yaxis)+ylab("Minor variants (%)")+xlab("") +theme_bw() +
           geom_boxplot(outlier.shape = NA,width=0.04, color="black", alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
@@ -132,7 +136,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
                 axis.text.y  = element_text(face="bold"))
   
       plot5_unique<-ggplot(unique, aes(x=proteinName, y=Incidence)) +
-          geom_violin(fill="#af10f1",trim = FALSE, color="#af10f1")+ylim(0,variants_max_yaxis)+ylab("Unique variants (%)")+xlab("")+theme_bw() +
+          geom_violin(fill="#af10f1",trim = TRUE, color="#af10f1", adjust=adjust, bw=bw)+ylim(0,variants_max_yaxis)+ylab("Unique variants (%)")+xlab("")+theme_bw() +
           geom_boxplot(outlier.shape = NA,width=0.05, color="black", alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
@@ -141,7 +145,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
                 axis.text.y  = element_text(face="bold"))
   
       plot5_nonatypes<-ggplot(nonatypes, aes(x=proteinName, y=Incidence)) +
-          geom_violin(fill="#c2c7cb",trim = FALSE, color="#c2c7cb")+ylim(0,100)+ylab("Distinct variants (%)")+xlab("")+theme_bw()+
+          geom_violin(fill="#c2c7cb",trim = TRUE, color="#c2c7cb", adjust=adjust, bw=bw)+ylim(0,100)+ylab("Distinct variants (%)")+xlab("")+theme_bw()+
           geom_boxplot(outlier.shape = NA,width=0.05, color="black", alpha=0.15,fill="white") +
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
@@ -185,8 +189,8 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
       }
       
       plot5<-ggplot()+
-        geom_violin(data=plot5_data,aes(x=proteinName,y=Incidence, fill=Group, color=Group), trim=FALSE)+
-        theme_classic(base_size = 8)+xlab("Protein")+ylab("Incidence (%)\n")+
+        geom_violin(data=plot5_data,aes(x=proteinName,y=Incidence, fill=Group, color=Group), trim=TRUE, adjust=adjust, bw=bw)+
+        theme_classic(base_size = base_size)+xlab("Protein")+ylab("Incidence (%)\n")+
         theme(panel.border = element_rect(colour = "black", fill=NA, size=1),
               legend.position="none")+
         scale_y_continuous(limits = limits_fun,breaks = breaks_fun)+
