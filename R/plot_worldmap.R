@@ -16,7 +16,7 @@
 #' @importFrom dplyr left_join
 #' @importFrom stringr str_to_title
 #' @export
-plot_worldmap <- function(meta, base_size=8, only_plot = F){
+plot_worldmap <- function(meta, base_size=8){
     long <- lat <- group <- count <- NULL
 
     colnames(meta) <- str_to_title(colnames(meta))
