@@ -52,7 +52,7 @@ plot_worldmap <- function(meta, base_size=8){
 refineCountry <- function(metatable){
     metatable$Country[metatable$Country == "DRC"] = "Democratic Republic of the Congo"
     metatable$Country[metatable$Country == "NewCaledonia"] = "New Caledonia"
-    metatable$Country[metatable$Country == "Northern Ireland"] = "New Caledonia"
+    metatable$Country[metatable$Country == "Northern Ireland"] = "UK"
     metatable$Country[metatable$Country %in% c("England","Scotland","Wales")] = "UK"
     metatable$Country[metatable$Country %in% c("Shangahi", "Xinjiang","Sichuan", "Guangdong","Shannxi", "Chongqing", "Inner_Mongolia","Shenzhen", "Wuhan",
                                                "Fujian", "Inner Mongolia", "Tianjing", "Hebei","Jiangsu", "Shandong", "Zhejiang",
