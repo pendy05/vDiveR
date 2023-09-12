@@ -8,14 +8,15 @@
 
 #' @param meta a dataframe with 3 columns, 'ID', 'country', and 'date'
 #' @param base_size word size in plot
+#' @param only_plot logical, return only plot or dataframe info as well, default FALSE
 #'
-#' @return A list with 2 elements (a plot followed by a dataframe)
+#' @return A single plot or a list with 2 elements (a plot followed by a dataframe)
 #' @examples geographical_plot <- plot_worldmap(metadata)$plot
 #' @examples geographical_df <- plot_worldmap(metadata)$df
 #' @importFrom ggplot2 geom_polygon scale_fill_gradient map_data
 #' @importFrom dplyr left_join
 #' @export
-plot_worldmap <- function(meta, base_size=8){
+plot_worldmap <- function(meta, base_size=8, only_plot = F){
     long <- lat <- group <- count <- NULL
 
     meta <- refineCountry(meta)
@@ -42,7 +43,12 @@ plot_worldmap <- function(meta, base_size=8){
 
     colnames(countrylist) <- c('Country','Number of Sequences')
 
-    return(list(plot=p, df=countrylist))
+    if (only_plot) {
+        return(p)
+    } else {
+        return(list(plot=p, df=countrylist))
+    }
+
 }
 
 
