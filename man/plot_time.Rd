@@ -23,9 +23,11 @@ plot_time(
 \item{date_break}{date break for the scale_x_date}
 
 \item{scale}{plot counts or log scale the data}
+
+\item{only_plot}{logical, return only plot or dataframe info as well, default FALSE}
 }
 \value{
-A list with 2 elements (a plot followed by a dataframe)
+A single plot or a list with 2 elements (a plot followed by a dataframe, default)
 }
 \description{
 This function plots the time distribution of provided sequences in the form of bar plot with 'Month' as x-axis and
