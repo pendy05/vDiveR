@@ -4,7 +4,7 @@
 \alias{plot_worldmap}
 \title{Geographical Distribution of Sequences Plot}
 \usage{
-plot_worldmap(meta, base_size = 8, only_plot = F)
+plot_worldmap(meta, base_size = 8)
 }
 \arguments{
 \item{meta}{a dataframe with 3 columns, 'ID', 'country', and 'date'}
