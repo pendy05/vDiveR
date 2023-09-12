@@ -9,7 +9,6 @@
 #' @param date_format date format of the input dataframe
 #' @param date_break date break for the scale_x_date
 #' @param scale plot counts or log scale the data
-#' @param only_plot logical, return only plot or dataframe info as well, default FALSE
 #'
 #' @return A single plot or a list with 2 elements (a plot followed by a dataframe, default)
 #' @examples time_plot <- plot_time(metadata)$plot
@@ -19,7 +18,7 @@
 #' @importFrom stringr str_to_title
 #' @export
 plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
-                      date_break = "2 month", scale = "count", only_plot = F){
+                      date_break = "2 month", scale = "count"){
     Month <- NULL
     colnames(metadata) <- str_to_title(colnames(metadata))
     metadata$Month <- as.Date(cut(as.Date(metadata$Date, format = date_format),
