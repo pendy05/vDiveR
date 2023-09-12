@@ -14,9 +14,8 @@
 #' @return A single plot or a list with 2 elements (a plot followed by a dataframe, default)
 #' @examples time_plot <- plot_time(metadata)$plot
 #' @examples time_df <- plot_time(metadata)$df
-#' @importFrom ggplot2 scale_x_date
-#' @importFrom ggplot2 geom_bar
-#' @importFrom scales date_format
+#' @importFrom ggplot2 scale_x_date geom_bar scale_y_log10
+#' @importFrom scales date_format trans_breaks trans_format math_format
 #' @export
 plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
                       date_break = "2 month", scale = "count", only_plot = F){
@@ -33,6 +32,7 @@ plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
     if (scale == 'log') {
         p <- p + scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),
                                  labels = trans_format("log10", math_format(10^.x)))
+                                 # labels = trans_format("log10", function(x) math_format(10^x)))
     }
 
     if (only_plot) {
