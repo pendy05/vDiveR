@@ -3,7 +3,7 @@
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/vDiveR)](https://CRAN.R-project.org/package=vDiveR)
-[![R-CMD-check](https://github.com/pendy05/DiveR_Rpackage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pendy05/DiveR_Rpackage/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/pendy05/vDiveR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pendy05/vDiveR/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
 
