@@ -4,7 +4,7 @@
 #' 'Number of Sequences' as y-axis. Aside from the plot, this function also returns a dataframe with 2 columns: 'Date' and 'Number of sequences'.
 #' The input dataframe of this function is obtainable from metadata_extraction(), with NCBI Protein / GISAID EpiCoV FASTA file as input.
 #'  
-#' @param meta a dataframe with 3 columns, 'ID', 'country', and 'date'
+#' @param metadata a dataframe with 3 columns, 'ID', 'country', and 'date'
 #' @param base_size word size in plot
 #' @param date_format date format of the input dataframe
 #' @param date_break date break for the scale_x_date

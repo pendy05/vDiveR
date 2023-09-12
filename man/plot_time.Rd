@@ -12,13 +12,13 @@ plot_time(
 )
 }
 \arguments{
+\item{metadata}{a dataframe with 3 columns, 'ID', 'country', and 'date'}
+
 \item{date_format}{date format of the input dataframe}
 
 \item{base_size}{word size in plot}
 
 \item{date_break}{date break for the scale_x_date}
-
-\item{meta}{a dataframe with 3 columns, 'ID', 'country', and 'date'}
 }
 \value{
 A list with 2 elements (a plot followed by a dataframe)
