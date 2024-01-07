@@ -21,10 +21,6 @@ plot_worldmap <- function(meta, base_size=8){
 
     colnames(meta) <- str_to_title(colnames(meta))
     meta <- refineCountry(meta)
-    # meta$country[meta$country == "DRC"] = "Democratic Republic of the Congo"
-    # meta$country[meta$country == "NewCaledonia"] = "New Caledonia"
-    # meta$country[meta$country == "Northern Ireland"] = "New Caledonia"
-    # meta$country[meta$country %in% c("England","Scotland","Wales")] = "UK"
 
     countrylist <- data.frame(table(meta$Country))
     colnames(countrylist) <- c('region','count')
