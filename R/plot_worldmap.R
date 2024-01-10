@@ -19,16 +19,16 @@
 plot_worldmap <- function(meta, base_size=8){
     long <- lat <- group <- count <- NULL
 
-    colnames(meta) <- str_to_title(colnames(meta))
+    colnames(meta) <- stringr::str_to_title(colnames(meta))
     meta <- refineCountry(meta)
 
     countrylist <- data.frame(table(meta$Country))
     colnames(countrylist) <- c('region','count')
 
-    world_map <- map_data("world")
+    world_map <- ggplot2::map_data("world")
     p <- ggplot(world_map, aes(x = long, y = lat, group = group)) +
         geom_polygon(fill="lightgray", colour = "#888888")
-    pathogens.map <- left_join(countrylist, world_map, by = "region")
+    pathogens.map <- dplyr::left_join(countrylist, world_map, by = "region")
 
     p <- p + geom_polygon(data = pathogens.map, aes(fill = count), color = "#888888") +
         scale_fill_gradient(low = "#FFFFFF", high = "#E63F00", name = 'Number of Sequences') +
