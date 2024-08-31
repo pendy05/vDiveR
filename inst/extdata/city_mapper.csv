@@ -1,4 +1,4 @@
-city_ascii,country
+city_ascii,region
 Tokyo,Japan
 Jakarta,Indonesia
 Delhi,India
@@ -136,7 +136,7 @@ Atlanta,USA
 Taizhou,China
 Kashan,Iran
 Bozhou,China
-Abidjan,Côte d'Ivoire
+Abidjan,CÃ¯Â¿Â½�
 Suqian,China
 Huaihua,China
 Ji'an,China
@@ -496,7 +496,7 @@ Agra,India
 Balandougou,Mali
 Agwar,India
 Leon de los Aldama,Mexico
-Yopougon,Côte d'Ivoire
+Yopougon,Ivory Coast
 Puebla,Mexico
 Madurai,India
 Hebi,China
@@ -810,7 +810,7 @@ Wellington,New Zealand
 Banjul,Gambia
 Halifax,Canada
 Canberra,Australia
-Yamoussoukro,Côte d'Ivoire
+Yamoussoukro,CÃ¯Â¿Â½�
 Victoria,Canada
 Nicosia,Cyprus
 Windhoek,Namibia
@@ -1187,7 +1187,7 @@ Banjarmasin,Indonesia
 Sha Tin,China
 Salem,India
 General Santos,Philippines
-Cocody,Côte d'Ivoire
+Cocody,CÃ¯Â¿Â½�
 Hamah,Syria
 Pendik,Turkey
 Bacoor,Philippines
@@ -1244,7 +1244,7 @@ Sargodha,Pakistan
 Al Hufuf,Saudi Arabia
 Durango,Mexico
 Jalingo,Nigeria
-Bouake,Côte d'Ivoire
+Bouake,CÃ¯Â¿Â½�
 Mazatlan,Mexico
 San Jose del Monte,Philippines
 Ansan,South Korea
@@ -1300,7 +1300,7 @@ Chimalhuacan,Mexico
 Xinxing,China
 Bhilai,India
 Mangalore,India
-Port-Bouet,Côte d'Ivoire
+Port-Bouet,CÃ¯Â¿Â½�
 Zhuangyuan,China
 Glasgow,UK
 Namangan,Uzbekistan
@@ -1723,7 +1723,7 @@ Caxias do Sul,Brazil
 Manizales,Colombia
 Yogyakarta,Indonesia
 Calicut,India
-Koumassi,Côte d'Ivoire
+Koumassi,CÃ¯Â¿Â½�
 Veracruz,Mexico
 Zanjan,Iran
 Welkom,South Africa
@@ -1758,7 +1758,7 @@ Laval,Canada
 Boise,USA
 Toyota,Japan
 Santa Rosa,Philippines
-Daloa,Côte d'Ivoire
+Daloa,CÃ¯Â¿Â½�
 Elazig,Turkey
 Hpa-An,Myanmar
 Rahimyar Khan,Pakistan
@@ -1868,7 +1868,7 @@ Piracicaba,Brazil
 Hancheng,China
 Karamay,China
 Kakinada,India
-San-Pedro,Côte d'Ivoire
+San-Pedro,CÃ¯Â¿Â½�
 Tieli,China
 Cilegon,Indonesia
 Darbhanga,India
@@ -2215,7 +2215,7 @@ Kaech'on,North Korea
 Asan,South Korea
 Tehuacan,Mexico
 Aksaray,Turkey
-Attiecoube,Côte d'Ivoire
+Attiecoube,CÃ¯Â¿Â½�
 Coatzacoalcos,Mexico
 Saransk,Russia
 Nukus,Uzbekistan
@@ -2420,7 +2420,7 @@ Round Lake Beach,USA
 Bolton,UK
 San Pablo,Philippines
 Suzano,Brazil
-Korhogo,Côte d'Ivoire
+Korhogo,CÃ¯Â¿Â½�
 Bhatinda,India
 Cascavel,Brazil
 Flint,USA
@@ -2483,7 +2483,7 @@ Canton,USA
 Sfax,Tunisia
 Dinajpur,Bangladesh
 Dire Dawa,Ethiopia
-Gagnoa,Côte d'Ivoire
+Gagnoa,CÃ¯Â¿Â½�
 Khmelnytskyi,Ukraine
 Farrukhabad,India
 Lashkar Gah,Afghanistan
@@ -2507,7 +2507,7 @@ Tsu,Japan
 Novorossiysk,Russia
 Bijiao,China
 Szekesfehervar,Hungary
-Soubre,Côte d'Ivoire
+Soubre,CÃ¯Â¿Â½�
 Palmas,Brazil
 Majene,Indonesia
 Sorong,Indonesia
@@ -2601,7 +2601,7 @@ Olongapo,Philippines
 Ciudad Benito Juarez,Mexico
 Hiratsuka,Japan
 Tiruvottiyur,India
-Oume,Côte d'Ivoire
+Oume,CÃ¯Â¿Â½�
 Soka,Japan
 Bunkyo-ku,Japan
 Aguadilla,Puerto Rico
@@ -2773,7 +2773,7 @@ Gonzalez Catan,Argentina
 Masaurhi Buzurg,India
 Qyzylorda,Kazakhstan
 Diaobingshancun,China
-Man,Côte d'Ivoire
+Man,CÃ¯Â¿Â½�
 Zhangping,China
 Dagana,Senegal
 Bac Lieu,Vietnam
@@ -2941,7 +2941,7 @@ Cox's Bazar,Bangladesh
 Takarazuka,Japan
 Atsugicho,Japan
 Itapevi,Brazil
-Marcory,Côte d'Ivoire
+Marcory,CÃ¯Â¿Â½�
 Toamasina,Madagascar
 Padangsidempuan,Indonesia
 Varamin,Iran
@@ -2993,7 +2993,7 @@ Santa Luzia,Brazil
 Polokwane,South Africa
 Chi Linh,Vietnam
 Tchaourou,Benin
-Duekoue,Côte d'Ivoire
+Duekoue,CÃ¯Â¿Â½�
 San Felipe,Venezuela
 Saveh,Iran
 San Bernardino,USA
@@ -3212,7 +3212,7 @@ Betigeri,India
 Passo Fundo,Brazil
 Banjar,Indonesia
 Kinh Mon,Vietnam
-Bingerville,Côte d'Ivoire
+Bingerville,CÃ¯Â¿Â½�
 Bac Giang,Vietnam
 Sejong,South Korea
 Yachiyo,Japan
@@ -3591,7 +3591,7 @@ Norilsk,Russia
 Spring Hill,USA
 Mongu,Zambia
 Al `Arish,Egypt
-Divo,Côte d'Ivoire
+Divo,CÃ¯Â¿Â½�
 Urayasu,Japan
 Bida,Nigeria
 Bade,Taiwan
@@ -3848,7 +3848,7 @@ Huddersfield,UK
 Bocoio,Angola
 Chillan,Chile
 Marysville,USA
-Abengourou,Côte d'Ivoire
+Abengourou,Ivory Coast
 Abu Hulayfah,Kuwait
 Muridke,Pakistan
 Tema,Ghana
@@ -3942,7 +3942,7 @@ Ede,Nigeria
 Huaycan,Peru
 Arad,Romania
 Moga,India
-Ferkessedougou,Côte d'Ivoire
+Ferkessedougou,CÃ¯Â¿Â½�
 Zabrze,Poland
 Bingol,Turkey
 San Nicolas de los Arroyos,Argentina
@@ -4021,7 +4021,7 @@ Lajes,Brazil
 Macon,USA
 Pitesti,Romania
 Ketou,Benin
-Adzope,Côte d'Ivoire
+Adzope,Ivory Coast
 Poblacion,Philippines
 Hanam,South Korea
 Capas,Philippines
@@ -4395,7 +4395,7 @@ Inezgane,Morocco
 Rize,Turkey
 Rio das Ostras,Brazil
 Vlore,Albania
-Bondoukou,Côte d'Ivoire
+Bondoukou,CÃ¯Â¿Â½�
 Fujita,Japan
 Jahrom,Iran
 Charleston,USA
@@ -4482,7 +4482,7 @@ Dos Hermanas,Spain
 Jolo,Philippines
 Montero,Bolivia
 Boca del Rio,Mexico
-Dabou,Côte d'Ivoire
+Dabou,CÃ¯Â¿Â½�
 Phu Ly,Vietnam
 Zama,Japan
 Brusque,Brazil
@@ -4581,7 +4581,7 @@ Greeley,USA
 Andimeshk,Iran
 Ipetumodu,Nigeria
 Conchali,Chile
-Agboville,Côte d'Ivoire
+Agboville,CÃ¯Â¿Â½�
 Djakotome,Benin
 Santa Rita,Brazil
 Silopi,Turkey
@@ -5787,7 +5787,7 @@ Kamianets-Podilskyi,Ukraine
 Acailandia,Brazil
 Mubende,Uganda
 Natitingou,Benin
-Seguela,Côte d'Ivoire
+Seguela,CÃ¯Â¿Â½�
 Longmont,USA
 Elista,Russia
 Kalyani,India
@@ -5925,7 +5925,7 @@ Kousseri,Cameroon
 Mestre,Italy
 Rades,Tunisia
 Hagere Hiywet,Ethiopia
-Daoukro,Côte d'Ivoire
+Daoukro,CÃ¯Â¿Â½�
 Weifen,China
 Kanoya,Japan
 Menifee,USA
@@ -5935,7 +5935,7 @@ Mporokoso,Zambia
 Solola,Guatemala
 Port Blair,India
 Vimmerby,Sweden
-Aboisso,Côte d'Ivoire
+Aboisso,CÃ¯Â¿Â½�
 Chanwari,India
 Muriae,Brazil
 Sungailiat,Indonesia
@@ -6212,7 +6212,7 @@ Loznica,Serbia
 Tucupita,Venezuela
 Ath Thawrah,Syria
 Tacambaro de Codallos,Mexico
-Odienne,Côte d'Ivoire
+Odienne,CÃ¯Â¿Â½�
 Keratsini,Greece
 Ciudad Lerdo,Mexico
 Owariasahi,Japan
@@ -6592,7 +6592,7 @@ Fujiidera,Japan
 Ain Harrouda,Morocco
 Kashiwara,Japan
 Tukh,Egypt
-Dimbokro,Côte d'Ivoire
+Dimbokro,CÃ¯Â¿Â½�
 Passaic,USA
 Veenendaal,Netherlands
 Agia Paraskevi,Greece
@@ -11704,7 +11704,7 @@ Dobje,Slovenia
 Hongseong,South Korea
 Mersch,Luxembourg
 Muan,South Korea
-Bangolo,Côte d'Ivoire
+Bangolo,CÃ¯Â¿Â½�
 Saratamata,Vanuatu
 Strendur,Faroe Islands
 Kurumul,Papua New Guinea
@@ -12049,7 +12049,7 @@ Dod Ballapur,India
 Lagarto,Brazil
 Lawang,Indonesia
 Lopez,Philippines
-Bouna,Côte d'Ivoire
+Bouna,CÃ¯Â¿Â½�
 Jaworzno,Poland
 Behshahr,Iran
 Kanuma,Japan
@@ -12124,7 +12124,7 @@ Itumbiara,Brazil
 Hanamaki Onsen,Japan
 Duren,Germany
 Missoula,USA
-Boundiali,Côte d'Ivoire
+Boundiali,CÃ¯Â¿Â½�
 Azua,Dominican Republic
 Laiyuan,China
 Itapeva,Brazil
@@ -12202,7 +12202,7 @@ Gwadar,Pakistan
 Cambambe,Angola
 Victorias,Philippines
 Pinamalayan,Philippines
-Katiola,Côte d'Ivoire
+Katiola,CÃ¯Â¿Â½�
 Chililabombwe,Zambia
 Biga,Turkey
 Eslamabad-e Gharb,Iran
@@ -12341,7 +12341,7 @@ Sudbury,Canada
 Sao Goncalo do Amarante,Brazil
 Jatai,Brazil
 Decatur,USA
-Sassandra,Côte d'Ivoire
+Sassandra,CÃ¯Â¿Â½�
 Dalton,USA
 Camiling,Philippines
 Conroe,USA
@@ -13070,7 +13070,7 @@ Oshkosh,USA
 Piracununga,Brazil
 Tanguieta,Benin
 Miki,Japan
-Grand-Bassam,Côte d'Ivoire
+Grand-Bassam,CÃ¯Â¿Â½�
 Standerton,South Africa
 Copacabana,Colombia
 San Juan Opico,El Salvador
@@ -13093,7 +13093,7 @@ Joao Monlevade,Brazil
 Pedro Brand,Dominican Republic
 Majalengka,Indonesia
 Uspantan,Guatemala
-Bongouanou,Côte d'Ivoire
+Bongouanou,CÃ¯Â¿Â½�
 Ramhormoz,Iran
 Tatsunocho-tominaga,Japan
 Tarn Taran,India
@@ -13105,7 +13105,7 @@ Mineral'nyye Vody,Russia
 Cherry Hill,USA
 Landshut,Germany
 Almelo,Netherlands
-Mankono,Côte d'Ivoire
+Mankono,CÃ¯Â¿Â½�
 Haveri,India
 Meshgin Shahr,Iran
 Kara-Balta,Kyrgyzstan
@@ -13281,7 +13281,7 @@ Quixeramobim,Brazil
 Janesville,USA
 Valenca,Brazil
 Mandla,India
-Bouafle,Côte d'Ivoire
+Bouafle,CÃ¯Â¿Â½�
 Rayadrug,India
 Binalbagan,Philippines
 Talibon,Philippines
@@ -13940,7 +13940,7 @@ Velika Gorica,Croatia
 Escada,Brazil
 Chincha Alta,Peru
 Visnagar,India
-Guiglo,Côte d'Ivoire
+Guiglo,CÃ¯Â¿Â½�
 Brentwood,USA
 Tajumulco,Guatemala
 Graaff-Reinet,South Africa
@@ -17599,7 +17599,7 @@ Bougara,Algeria
 Mehidpur,India
 Roy,USA
 Penfield,USA
-Toumodi,Côte d'Ivoire
+Toumodi,CÃ¯Â¿Â½�
 Bangar,Philippines
 Issaquah,USA
 Inashiki,Japan
@@ -19678,7 +19678,7 @@ Louvain-la-Neuve,Belgium
 Domingos Martins,Brazil
 Sao Jose do Egito,Brazil
 Nijar,Spain
-Touba,Côte d'Ivoire
+Touba,CÃ¯Â¿Â½�
 Gevelsberg,Germany
 Ubajara,Brazil
 Val-d'Or,Canada
@@ -23510,7 +23510,7 @@ Miantso,Madagascar
 Vadakarai Kil Pidagai,India
 Santo Antonio do Ica,Brazil
 Mandawa,India
-Bonoufla,Côte d'Ivoire
+Bonoufla,CÃ¯Â¿Â½�
 Ravulapalem,India
 Qadirganj,India
 Plonsk,Poland
@@ -25297,7 +25297,7 @@ Pontal do Parana,Brazil
 Klaukkala,Finland
 Ampasimatera,Madagascar
 Morafeno,Madagascar
-Zaliohouan,Côte d'Ivoire
+Zaliohouan,CÃ¯Â¿Â½�
 San Jose de Jachal,Argentina
 Osmaneli,Turkey
 Barki Saria,India
@@ -25762,7 +25762,7 @@ Ostrov,Russia
 Pinan,Philippines
 Baihar,India
 Akanavaritota,India
-Yabayo,Côte d'Ivoire
+Yabayo,CÃ¯Â¿Â½�
 Kubinka,Russia
 Butia,Brazil
 Dereli,Turkey
@@ -26332,7 +26332,7 @@ Hongshui,China
 Taketa,Japan
 Andaingo Gara,Madagascar
 Ayyampettai,India
-Luenoufla,Côte d'Ivoire
+Luenoufla,CÃ¯Â¿Â½�
 Rybnoye,Russia
 Suarez,Colombia
 Tash-Komur,Kyrgyzstan
@@ -27825,7 +27825,7 @@ Maryland City,USA
 Jaicos,Brazil
 Hijuelas,Chile
 Boone,USA
-Mabehiri,Côte d'Ivoire
+Mabehiri,CÃ¯Â¿Â½�
 Cruz Machado,Brazil
 Curti,India
 Sorrento,Italy
@@ -28219,7 +28219,7 @@ Rocca di Papa,Italy
 Jomboy Shahri,Uzbekistan
 Vallieres,Haiti
 As Suqaylibiyah,Syria
-Para,Côte d'Ivoire
+Para,CÃ¯Â¿Â½�
 Barrhead,UK
 Magalhaes de Almeida,Brazil
 Balma,France
@@ -30035,7 +30035,7 @@ San Julian,Mexico
 Firestone,USA
 Bocsa,Romania
 Tarancon,Spain
-Brofodoume,Côte d'Ivoire
+Brofodoume,CÃ¯Â¿Â½�
 Plavsk,Russia
 Contenda,Brazil
 Galvan,Dominican Republic
@@ -31074,7 +31074,7 @@ Henderson,USA
 Vil'nyans'k,Ukraine
 Mahinog,Philippines
 Nawada,India
-Ahigbe Koffikro,Côte d'Ivoire
+Ahigbe Koffikro,CÃ¯Â¿Â½�
 Ambatoharanana,Madagascar
 Kyzyl-Suu,Kyrgyzstan
 Horta,Portugal
@@ -31200,7 +31200,7 @@ Madanpur,India
 Shlisselburg,Russia
 Dimiao,Philippines
 Nakagawa,Japan
-Doukouya,Côte d'Ivoire
+Doukouya,CÃ¯Â¿Â½�
 Usingen,Germany
 Verdal,Norway
 Mashpee,USA
@@ -31813,7 +31813,7 @@ Asagiri,Japan
 Barra do Mendes,Brazil
 Kurikuppi,India
 Agua Boa,Brazil
-Minignan,Côte d'Ivoire
+Minignan,CÃ¯Â¿Â½�
 General MacArthur,Philippines
 Tiruppanandal,India
 Paulino Neves,Brazil
@@ -32335,7 +32335,7 @@ Nafpaktos,Greece
 Lakeland North,USA
 Arenoso,Dominican Republic
 Novoulyanovsk,Russia
-Pelezi,Côte d'Ivoire
+Pelezi,CÃ¯Â¿Â½�
 Kisanuki,Japan
 San Vicente,Philippines
 Uxbridge,USA
@@ -32455,7 +32455,7 @@ Gondalga,India
 Talwat,Morocco
 Akropong,Ghana
 Meckenbeuren,Germany
-Mignoure,Côte d'Ivoire
+Mignoure,CÃ¯Â¿Â½�
 Livingston,USA
 Bang Racham,Thailand
 Latham,USA

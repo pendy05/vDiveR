@@ -1,10 +1,11 @@
 #' Metadata Extraction from NCBI/GISAID EpiCoV FASTA file
 #'
-#' This function retrieves metadata (ID, country, date) from the NCBI/GISAID EpiCoV FASTA file (default FASTA header expected).
+#' This function retrieves metadata (ID, region, date) from the input FASTA file, with the source of, either 
+#' NCBI (with default FASTA header) or GISAID (with default FASTA header).
 #'
 #' @param file_path path of fasta file
 #' @param source the source of fasta file, either "ncbi" or "GISAID"
-#' @return  A dataframe that has three columns consisting ID, collected country and collected date
+#' @return  A dataframe that has three columns consisting ID, collected region and collected date
 #' @examples filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
 #' @examples meta_gisaid <- metadata_extraction(filepath, 'GISAID')
 #' @export
@@ -32,16 +33,14 @@ extract_from_GISAID <- function(file_path){
             heads <- c(heads, line)
         }
     }
-    IDs <- c(); countries <- c(); dates <- c()
+    IDs <- c(); regions <- c(); dates <- c()
     for(head in heads){
         ID <- str_extract(head, "EPI[^|]*"); IDs <- c(IDs, ID)
-
-        country <- tryCatch(strsplit(head, '/', fixed=T)[[1]][2], error = function(e) "NA")
-        countries <- c(countries, country)
-
+        region <- tryCatch(strsplit(head, '/', fixed=T)[[1]][2], error = function(e) "NA")
+        regions <- c(regions, region)
         date <- str_extract(head, "[0-9]{4}-[0-9]{2}-[0-9]{2}"); dates <- c(dates, date)
     }
-    return(data.frame('ID' = IDs, 'country' = countries, 'date' = dates))
+    return(data.frame('ID' = IDs, 'region' = regions, 'date' = dates))
 }
 
 #' Extract metadata via fasta file from ncbi
@@ -59,7 +58,7 @@ extract_from_NCBI <- function(file_path){
             IDs <- c(IDs, ID)
         }
     }
-    countries <- c(); dates <- c(); dropsample <- c(); keepsample <- c()
+    regions <- c(); dates <- c(); dropsample <- c(); keepsample <- c()
     for(ID in IDs){
         if(substr(ID,1,3) == 'pdb'){
             dropsample <- c(dropsample, ID)
@@ -68,22 +67,16 @@ extract_from_NCBI <- function(file_path){
         keepsample <- c(keepsample, ID)
         search_result <- entrez_search(db = "protein", term = ID, retmax = 1)
         accession <- search_result$ids[[1]]
-        
         info <- entrez_fetch(db = "protein", id = accession, rettype = "gb", retmode = "text")
         info <- tryCatch(strsplit(info, '\n')[[1]], error = function(e) "")
-        idx1 <- grep('/country=',  info); idx2 <- grep('/collection_date=',  info)
+        idx1 <- grep('/region=',  info); idx2 <- grep('/collection_date=',  info)
         info1 <- info[idx1]; info2 <- info[idx2]
-
-        country <- tryCatch(strsplit(info1, '\\"')[[1]][2], error = function(e) "NA")
-        if (grepl(':', country)) {
-            country <- strsplit(country,':')[[1]][1]
-        }
-
+        region <- tryCatch(strsplit(info1, '\\"')[[1]][2], error = function(e) "NA")
+        if(grepl(':', region)){region <- strsplit(region,':')[[1]][1]}
         date <- tryCatch(strsplit(info2, '\\"')[[1]][2], error = function(e) "NA")
-        
-        countries <- c(countries, country); dates <- c(dates, date)
+        regions <- c(regions, region); dates <- c(dates, date)
     }
-    tmp <- data.frame('ID' = keepsample, 'country' = countries, 'date' = dates)
+    tmp <- data.frame('ID' = keepsample, 'region' = regions, 'date' = dates)
 
     for(i in 1:nrow(tmp)){
         if(!is.na(as.Date(tmp$date[i],format='%Y-%m-%d'))){
@@ -94,7 +87,7 @@ extract_from_NCBI <- function(file_path){
             dropsample <- c(dropsample, tmp$ID[i])
         }
     }
-    warninfo <- paste(c('\nExcluded records:\n',dropsample, '\nCountry/date (%Y-%m-%d OR %d-%B-%Y format) are not provided.'), collapse = " ")
+    warninfo <- paste(c('\nExcluded records:\n',dropsample, '\nregion/date (%Y-%m-%d OR %d-%B-%Y format) are not provided.'), collapse = " ")
     warning(warninfo)
     tmp <- tmp[! tmp$ID %in% dropsample, ]
     return(tmp)
