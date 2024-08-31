@@ -1,7 +1,7 @@
 Package: vDiveR
 Type: Package
 Title: Visualization of Viral Protein Sequence Diversity Dynamics
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: c(
     person("Pendy", "Tok", email = "pendytok0518@gmail.com", role = c("aut", "cre")),
     person("Li Chuin", "Chong", role = "aut"),
@@ -17,7 +17,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    DT, 
     dplyr,
     gghalves,
     ggplot2,
@@ -31,10 +30,9 @@ Imports:
     stringr,
     rlang,
     rentrez,
-    readr,
     scales,
-    maps
-RoxygenNote: 7.2.3
+    utils
+RoxygenNote: 7.3.1
 Depends:
     R (>= 2.10)
 Suggests:

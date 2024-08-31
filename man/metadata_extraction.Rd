@@ -12,10 +12,11 @@ metadata_extraction(file_path, source)
 \item{source}{the source of fasta file, either "ncbi" or "GISAID"}
 }
 \value{
-A dataframe that has three columns consisting ID, collected country and collected date
+A dataframe that has three columns consisting ID, collected region and collected date
 }
 \description{
-This function retrieves metadata (ID, country, date) from the NCBI/GISAID EpiCoV FASTA file (default FASTA header expected).
+This function retrieves metadata (ID, region, date) from the input FASTA file, with the source of, either 
+NCBI (with default FASTA header) or GISAID (with default FASTA header).
 }
 \examples{
 filepath <- system.file('extdata','GISAID_EpiCoV.faa', package = 'vDiveR')
