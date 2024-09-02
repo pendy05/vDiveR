@@ -17,14 +17,12 @@
 #' @importFrom scales date_format trans_breaks trans_format math_format
 #' @importFrom stringr str_to_title
 #' @importFrom magrittr %>%
-#' @importFrom dplyr filter
+#' @importFrom dplyr filter group_by summarize
 #' @export
 plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
                       date_break = "2 month", scale = "count"){
     Month <- .x <- NULL
     colnames(metadata) <- stringr::str_to_title(colnames(metadata))
-    print(colnames(metadata))
-
     
     dates_3rows<-paste(metadata$Date[1:3], collapse = ", ")
     metadata <- metadata %>%
@@ -38,7 +36,8 @@ plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
     metadata$Month <- as.Date(cut(as.Date(metadata$Date, format = date_format),
                                   breaks = "month"))
 
-    p <- ggplot(data = metadata, aes(x = Month)) + geom_bar() +
+    p <- ggplot(data = metadata, aes(x = Month)) + 
+        geom_bar() +
         ylab('Number of Sequences') +
         scale_x_date(date_breaks = date_break, labels = scales::date_format("%b %Y"))  +
         theme_classic(base_size = base_size) +
@@ -49,12 +48,11 @@ plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
                                  labels = trans_format("log10", scales::math_format(10^.x)))
     }
 
-    temporal <- metadata[,c('Region', 'Date')]
-    temporal$Count <- 1
-    temporal$Date <- as.Date(temporal$Date, format = date_format)
-    temporal <- aggregate(temporal$Count, by=list(temporal$Date), sum)
-    colnames(temporal) <- c('Date', 'Number of Sequences')
+    final_df <- metadata %>%
+        dplyr::group_by(Date) %>%
+        dplyr::summarize("Number of Sequences" = n()) %>%
+        as.data.frame()
 
-    return(list(plot=p,df=temporal))
+    return(list(plot=p,df=final_df))
 }
 
