@@ -13,7 +13,7 @@
 #' @examples geographical_plot <- plot_worldmap(metadata)$plot
 #' @examples geographical_df <- plot_worldmap(metadata)$df
 #' @importFrom ggplot2 geom_polygon scale_fill_gradient map_data
-#' @importFrom dplyr left_join %>% groupby ungroup slice 
+#' @importFrom dplyr left_join %>% group_by ungroup slice 
 #' @importFrom stringr str_to_title
 #' @export
 plot_worldmap <- function(meta, base_size=8){
