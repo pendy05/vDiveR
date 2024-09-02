@@ -21,7 +21,7 @@
 #' @export
 plot_time <- function(metadata, date_format = "%Y-%m-%d", base_size=8,
                       date_break = "2 month", scale = "count"){
-    Month <- .x <- NULL
+    Month <- .x <- Date <- NULL
     colnames(metadata) <- stringr::str_to_title(colnames(metadata))
     
     dates_3rows<-paste(metadata$Date[1:3], collapse = ", ")

@@ -17,7 +17,7 @@
 #' @importFrom stringr str_to_title
 #' @export
 plot_worldmap <- function(meta, base_size=8){
-    long <- lat <- group <- count <- NULL
+    long <- lat <- group <- count <- city_ascii <- region.y <- region <- ID <- date <- NULL
     if (nrow(meta) < 1){
         error_msg <- paste("No records found in the metadata dataframe.")
         return(list(plot = NULL, df = error_msg))
