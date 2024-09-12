@@ -31,7 +31,8 @@ Imports:
     rlang,
     rentrez,
     scales,
-    utils
+    utils,
+    maps
 RoxygenNote: 7.3.1
 Depends:
     R (>= 2.10)
