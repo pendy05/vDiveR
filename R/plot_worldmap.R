@@ -4,7 +4,7 @@
 #' from light (lower) to dark (higher), depends on the cumulative number of sequences.
 #' Aside from the plot, this function also returns a dataframe with 2 columns: 'Region' and 'Number of Sequences'.
 #' The input dataframe of this function is obtainable from metadata_extraction(), with NCBI
-#' Protein / GISAID EpiCoV FASTA file as input.
+#' Protein / GISAID (EpiFlu/EpiCoV/EpiPox/EpiArbo) FASTA file as input.
 
 #' @param meta a dataframe with 3 columns, 'ID', 'region', and 'date'
 #' @param base_size word size in plot
