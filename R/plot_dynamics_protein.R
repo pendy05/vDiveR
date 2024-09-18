@@ -17,7 +17,7 @@
 #' @export
 plot_dynamics_protein<-function(df, 
                                 host=1, 
-                                protein_order="", 
+                                protein_order=NULL, 
                                 base_size=8, 
                                 alpha = 1/3, 
                                 line_dot_size = 3,
@@ -25,15 +25,18 @@ plot_dynamics_protein<-function(df,
                                 adjust = 1){
     #single host
     if (host == 1){
-        plot4_5(data=df, protein_order=protein_order, base_size=base_size,alpha=alpha,  line_dot_size=line_dot_size, bw = bw, adjust = adjust)
+        generate_protein_plots(data=df, protein_order=protein_order, base_size=base_size,alpha=alpha,  line_dot_size=line_dot_size, bw = bw, adjust = adjust)
     }else{ #multihost
         #split the data into multiple subsets (if multiple hosts detected)
-        plot4_list<-split(df,df$host)
-        plot4_multihost<-lapply(plot4_list,plot4_5,protein_order, alpha, line_dot_size, base_size, host, bw, adjust)
+        data_list<-split(df,df$host)
+        multihost_plots <- lapply(data_list, function(df) {      
+          generate_protein_plots(df, protein_order = protein_order, base_size = base_size, alpha = alpha,
+                  line_dot_size = line_dot_size, bw = bw, adjust = adjust)
+        })
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(plot4_multihost,"+",theme), ncol = length(unique(df$host))))
+        do.call("grid.arrange", c(grobs=lapply(multihost_plots,"+",theme), ncol = length(unique(df$host))))
     }
 }
 
@@ -41,7 +44,7 @@ plot_dynamics_protein<-function(df,
 #' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
 #' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
 #' @importFrom ggpubr annotate_figure ggarrange text_grob
-plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8, host=1, bw = "nrd0", adjust = 1){
+generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_size=3, base_size=8, host=1, bw = "nrd0", adjust = 1){
     Total_Variants <- Incidence <- Group <- x <- proteinName <- entropy <- NULL
 
     plot4_data<-data.frame()
@@ -61,7 +64,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
         plot4_data<-rbind(plot4_data,tmp)
     }
 
-    if (protein_order !=""){
+    if (!is.null(protein_order)){
         #order the proteins based on user input
         level<-strsplit(protein_order, ',')[[1]]
         #set protein order as factor
@@ -150,7 +153,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
                 panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
-                axis.line.x = element_line(size = 0.5, linetype = "solid", colour = "black"),
+                axis.line.x = element_line(linewidth = 0.5, linetype = "solid", colour = "black"),
                 axis.ticks.x = element_blank())
       plot5<-ggarrange(plot5_index,plot5_tv,plot5_nonatypes,plot5_major,plot5_minor,plot5_unique,ncol=3,nrow=2)
     } else {
@@ -162,15 +165,6 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
       plot5_data$Group<-factor(plot5_data$Group, levels=c("Index k-mer","Total variants", "Distinct variants", "Major variant", "Minor variants", "Unique variants"))
       variants<-subset(plot5_data, Group=="Major variant" | Group=="Minor variants" | Group=="Unique variants")
       max_ylim<-ceiling((max(variants$Incidence)/10))*10
-      
-      # scales_y <- list(
-      #   "Index k-mer" = scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)),
-      #   "Total variants" = scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)),
-      #   "Distinct variants" = scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)),
-      #   "Major variant" = scale_y_continuous(limits = c(0, max_ylim), breaks = seq(0, max_ylim, 10)),
-      #   "Minor variants" = scale_y_continuous(limits = c(0, max_ylim), breaks = seq(0, max_ylim, 10)),
-      #   "Unique variants" = scale_y_continuous(limits = c(0, max_ylim), breaks = seq(0, max_ylim, 10))
-      # )
       
       breaks_fun <- function(x) {
         if (max(x)<= max_ylim){
@@ -203,7 +197,4 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
     #plot4_5
     ggarrange(plot4,plot5,ncol=1,heights = c(1,0.5))
 }
-
-
-
 
