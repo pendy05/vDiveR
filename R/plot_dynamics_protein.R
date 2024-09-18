@@ -79,7 +79,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
         theme_classic(base_size = base_size)+
         theme(
             legend.background = element_rect(fill = "transparent"),
-            panel.border = element_rect(colour = "black", fill=NA, size=1),
+            panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
             legend.position = "bottom"
         )+ guides(colour = guide_legend(override.aes = list(alpha = 1,size=2),keywidth = 1,keyheight = 1,nrow=1,byrow=TRUE))+
         scale_colour_manual('',values = c("Index"="black","Total variants"="#f7238a", "Major"="#37AFAF","Minor"="#42aaff","Unique"="#af10f1","Distinct variants"="#c2c7cb" ))
@@ -106,7 +106,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           geom_boxplot(outlier.shape = NA,width=0.05, color="white",alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
-                panel.border = element_rect(colour = "black", fill=NA, size=1),
+                panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
                 axis.ticks.x = element_blank())
   
       plot5_tv<-ggplot(index, aes(x=proteinName, y=Total_Variants))+
@@ -114,7 +114,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           geom_boxplot(outlier.shape = NA,width=0.05, color="black",alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0.1,0.1), "cm"),
-                panel.border = element_rect(colour = "black", fill=NA, size=1),
+                panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
                 axis.ticks.x = element_blank())
   
       plot5_major<-ggplot(major, aes(x=proteinName, y=Incidence)) +
@@ -122,7 +122,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           geom_boxplot(outlier.shape = NA,width=0.04, color="black", alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
-                panel.border = element_rect(colour = "black", fill=NA, size=1),
+                panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
                 axis.ticks.x = element_blank(),
                 axis.text.y  = element_text(face="bold"))
   
@@ -131,7 +131,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           geom_boxplot(outlier.shape = NA,width=0.04, color="black", alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
-                panel.border = element_rect(colour = "black", fill=NA, size=1),
+                panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
                 axis.ticks.x = element_blank(),
                 axis.text.y  = element_text(face="bold"))
   
@@ -140,7 +140,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           geom_boxplot(outlier.shape = NA,width=0.05, color="black", alpha=0.15,fill="white")+
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
-                panel.border = element_rect(colour = "black", fill=NA, size=1),
+                panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
                 axis.ticks.x = element_blank(),
                 axis.text.y  = element_text(face="bold"))
   
@@ -149,7 +149,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
           geom_boxplot(outlier.shape = NA,width=0.05, color="black", alpha=0.15,fill="white") +
           theme_classic(base_size = base_size)+
           theme(plot.margin = unit(c(0,0.1,0,0.1), "cm"),
-                panel.border = element_rect(colour = "black", fill=NA, size=1),
+                panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
                 axis.line.x = element_line(size = 0.5, linetype = "solid", colour = "black"),
                 axis.ticks.x = element_blank())
       plot5<-ggarrange(plot5_index,plot5_tv,plot5_nonatypes,plot5_major,plot5_minor,plot5_unique,ncol=3,nrow=2)
@@ -191,7 +191,7 @@ plot4_5<-function(data, protein_order="",alpha=1/3, line_dot_size=3, base_size=8
       plot5<-ggplot()+
         geom_violin(data=plot5_data,aes(x=proteinName,y=Incidence, fill=Group, color=Group), trim=TRUE, adjust=adjust, bw=bw)+
         theme_classic(base_size = base_size)+xlab("Protein")+ylab("Incidence (%)\n")+
-        theme(panel.border = element_rect(colour = "black", fill=NA, size=1),
+        theme(panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
               legend.position="none")+
         scale_y_continuous(limits = limits_fun,breaks = breaks_fun)+
         facet_grid(rows = vars(Group),switch="y",scales = 'free')+

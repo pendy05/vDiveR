@@ -90,7 +90,7 @@ plot3<-function(data,
         scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))+
         theme_classic(base_size = base_size)+
         theme(
-            panel.border = element_rect(colour = "black", fill=NA, size=1),
+            panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
             strip.text.x = element_blank(),
             legend.position="bottom")+
         labs(y= "Incidence (%)", x="\nTotal variants (%)")+
@@ -119,7 +119,7 @@ plot3<-function(data,
         labs(y=NULL,x="Index")+
         theme_classic(base_size = base_size)+
         theme(
-            panel.border = element_rect(colour = "black", fill=NA, size=1),
+            panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
             axis.text.x  = element_blank(),
             axis.ticks.x = element_blank())+
         scale_color_grey()
@@ -134,7 +134,7 @@ plot3<-function(data,
             plot.margin = margin( t=5,
                                   b=5,
                                   r = -0.25),
-            panel.border = element_rect(colour = "black", fill=NA, size=1),
+            panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
             axis.text=element_text(colour="white"),
             axis.text.x  = element_blank(),
             axis.ticks = element_blank())
@@ -146,7 +146,7 @@ plot3<-function(data,
         labs(y=NULL,x="Distinct variants")+
         theme_classic(base_size = base_size)+
         theme(
-            panel.border = element_rect(colour = "black", fill=NA, size=1),
+            panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
             axis.text=element_text(colour="white"),
             axis.text.x  = element_blank(),
             axis.ticks = element_blank())
@@ -159,7 +159,7 @@ plot3<-function(data,
         labs(y=NULL,x=NULL)+
         facet_wrap(Group ~ .,ncol=1,strip.position ="right")+
         theme(strip.placement = "outside",
-              panel.border = element_rect(colour = "black", fill=NA, size=1),
+              panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
               axis.text.x=element_blank (),
               axis.ticks.x=element_blank (),
               panel.spacing = unit(0, "lines"),
