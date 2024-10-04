@@ -42,12 +42,12 @@ plot_conservation_level <- function(df,
 
     #single host
     if (host == 1){
-        plot_plot7(data = df,protein_order = protein_order,conservation_label = conservation_label, base_size = base_size, label_size = label_size)
+        plot_plot7(data = df,protein_order = protein_order,conservation_label = conservation_label, base_size = base_size, label_size = label_size, line_dot_size = line_dot_size, alpha = alpha)
     }else{ #multihost
 
         #split the data into multiple subsets (if multiple hosts detected)
         plot7_list<-split(df,df$host)
-        plot7_multihost<-lapply(plot7_list,plot_plot7, protein_order,conservation_label, base_size, label_size)
+        plot7_multihost<-lapply(plot7_list,plot_plot7, protein_order,conservation_label, base_size,  line_dot_size, label_size, alpha)
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(2.5,1.0,0.1,0.5), "cm"))
@@ -80,7 +80,7 @@ plot_plot7<- function(data,
     if (protein_order ==""){ #follow the default order in csv file
         level<-c("All",unique(data$proteinName))
     }else{ #order the proteins based on user input
-        level<-c("All",strsplit(protein_order, ',')[[1]])
+        level<-c("All",paste("Protein",trimws(strsplit(protein_order, ',')[[1]])))
     }
 
     #determine the protein order
