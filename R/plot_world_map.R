@@ -6,7 +6,7 @@
 #' The input dataframe of this function is obtainable from metadata_extraction(), with NCBI
 #' Protein / GISAID (EpiFlu/EpiCoV/EpiPox/EpiArbo) FASTA file as input.
 
-#' @param meta a dataframe with 3 columns, 'ID', 'region', and 'date'
+#' @param metadata a dataframe with 3 columns, 'ID', 'region', and 'date'
 #' @param base_size word size in plot
 #'
 #' @return A list with 2 elements (a plot followed by a dataframe)
@@ -16,15 +16,15 @@
 #' @importFrom dplyr left_join %>% group_by ungroup slice 
 #' @importFrom stringr str_to_title
 #' @export
-plot_world_map <- function(meta, base_size=8){
+plot_world_map <- function(metadata, base_size=8){
     long <- lat <- group <- count <- city_ascii <- region.y <- region <- ID <- date <- NULL
-    if (nrow(meta) < 1){
+    if (nrow(metadata) < 1){
         error_msg <- paste("No records found in the metadata dataframe.")
         return(list(plot = NULL, df = error_msg))
     }
 
-    meta$region <- stringr::str_to_title(meta$region)
-    region_list <- data.frame(table(meta$region))
+    metadata$region <- stringr::str_to_title(metadata$region)
+    region_list <- data.frame(table(metadata$region))
     colnames(region_list) <- c('region','count')
   
     #==================== data preparation section ========================#
@@ -36,11 +36,11 @@ plot_world_map <- function(meta, base_size=8){
         dplyr::ungroup()
 
     # Perform the left join to match 'region' with 'city_ascii' from city_mapper
-    meta <- meta %>%
+    metadata <- metadata %>%
         left_join(city2region_unique, by = c("region" = "city_ascii"))
 
-    # Replace the 'region' column in meta with the matched 'region' from city_mapper
-    meta <- meta %>%
+    # Replace the 'region' column in metadata with the matched 'region' from city_mapper
+    metadata <- metadata %>%
         mutate(region = ifelse(!is.na(region.y), region.y, region)) %>%
         select(ID, region,date)
 
