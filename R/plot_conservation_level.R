@@ -22,7 +22,7 @@
 #' @importFrom gridExtra grid.arrange
 #' @export
 plot_conservation_level <- function(df, 
-                                   protein_order="",
+                                   protein_order=NULL,
                                    conservation_label=1,
                                    host=1, 
                                    base_size = 11, 
@@ -62,7 +62,7 @@ plot_conservation_level <- function(df,
 #' @importFrom ggtext geom_richtext
 #plotting function
 plot_plot7<- function(data,
-                      protein_order="",
+                      protein_order=NULL,
                       conservation_label=1, 
                       base_size = 11, 
                       line_dot_size = 2,
@@ -71,16 +71,18 @@ plot_plot7<- function(data,
     proteinName <- Total <- index.incidence <- NULL
     Label <- ConservationLevel <- NULL
     #add word 'protein' in front of each protein name
+    data$proteinName <- toupper(data$proteinName)
     data$proteinName<-paste("Protein",data$proteinName)
-    #create data for proteome bar "All" from existing data
+    #create data for proteome bar "ALL" from existing data
     data1<-data
-    data1$proteinName <- "All"
-    data1$level <- "All"
+    data1$proteinName <- "ALL"
+    data1$level <- "ALL"
     #set up the order of proteins in plot from left to right
-    if (protein_order ==""){ #follow the default order in csv file
-        level<-c("All",unique(data$proteinName))
+    if (is.null(protein_order) || protein_order ==""){ #follow the default order in csv file
+        level<-c("ALL",unique(data$proteinName))
     }else{ #order the proteins based on user input
-        level<-c("All",paste("Protein",trimws(strsplit(protein_order, ',')[[1]])))
+        protein_order<-toupper(protein_order)
+        level<-c("ALL",paste("Protein",trimws(strsplit(protein_order, ',')[[1]])))
     }
 
     #determine the protein order

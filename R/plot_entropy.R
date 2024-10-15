@@ -29,10 +29,13 @@ plot_entropy <- function(df,
                          all= TRUE, 
                          highlight_zero_entropy=TRUE){
     entropy <- end <- lowSupportPos <- totalVariants.incidence <- NULL
+    
+    df$proteinName <- toupper(df$proteinName)
+
     #determine number of host
     #scale the amino acid position for each protein
     if (host ==1){ #single host
-        if (protein_order ==""){
+        if (protein_order =="" || is.null(protein_order) || protein_order == "NULL"){
             a<-table(df$proteinName)
             proteinName<-as.vector(names(a))
             position<-as.vector(a)
@@ -42,7 +45,8 @@ plot_entropy <- function(df,
             }, proteinName,position)
         }else{
             #order the proteins based on user input
-            level<-trimws(strsplit(protein_order, ',')[[1]])
+            level<-strsplit(protein_order, ',')[[1]]
+            level<- sapply(level, function(x) toupper(trimws(x)))
             position<-c()
             for (i in level){
                 position<-append(position,table(df$proteinName)[names(table(df$proteinName)) == i])
@@ -57,7 +61,7 @@ plot_entropy <- function(df,
         df$host<- factor(df$host)
         #count the aa length for each proteins (each host is expected to have same number of proteins with same length)
         df_sub<-df[df$host==unique(df$host[1]),]
-        if (protein_order ==""){
+        if (protein_order =="" || is.null(protein_order) || protein_order == "NULL"){
             a<-table(df_sub$proteinName)
             proteinName<-as.vector(names(a))
             position<-as.vector(a)
@@ -67,7 +71,8 @@ plot_entropy <- function(df,
             }, proteinName,position)
         }else{
             #order the proteins based on user input
-            level<-trimws(strsplit(protein_order, ',')[[1]])
+            level<-strsplit(protein_order, ',')[[1]]
+            level<- sapply(level, function(x) toupper(trimws(x)))
             position<-c()
             for (i in level){
                 position<-append(position,table(df_sub$proteinName)[names(table(df_sub$proteinName)) == i])

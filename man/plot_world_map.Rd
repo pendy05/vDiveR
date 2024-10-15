@@ -4,10 +4,10 @@
 \alias{plot_world_map}
 \title{Geographical Distribution of Sequences Plot}
 \usage{
-plot_world_map(meta, base_size = 8)
+plot_world_map(metadata, base_size = 8)
 }
 \arguments{
-\item{meta}{a dataframe with 3 columns, 'ID', 'region', and 'date'}
+\item{metadata}{a dataframe with 3 columns, 'ID', 'region', and 'date'}
 
 \item{base_size}{word size in plot}
 }

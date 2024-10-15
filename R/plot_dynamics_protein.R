@@ -64,10 +64,14 @@ generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_si
         plot4_data<-rbind(plot4_data,tmp)
     }
 
-    if (!is.null(protein_order)){
+    plot4_data$proteinName <- toupper(plot4_data$proteinName)
+    if (!is.null(protein_order) && protein_order != ""){
         #order the proteins based on user input
+        protein_order <- toupper(trimws(protein_order))
         level<-strsplit(protein_order, ',')[[1]]
+        level <- sapply(level, function(x) toupper(trimws(x)))
         #set protein order as factor
+        
         plot4_data$proteinName<-factor(plot4_data$proteinName, levels=level)
         plot4_data$size_f = factor(plot4_data$proteinName,levels = level)
     }

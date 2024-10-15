@@ -6,7 +6,7 @@
 \usage{
 plot_conservation_level(
   df,
-  protein_order = "",
+  protein_order = NULL,
   conservation_label = 1,
   host = 1,
   base_size = 11,
