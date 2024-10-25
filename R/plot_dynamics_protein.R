@@ -13,7 +13,7 @@
 #' @param adjust adjust the width of violin plot (default: 1)
 #' @return A plot
 #' @examples plot_dynamics_protein(proteins_1host)
-#' @importFrom gridExtra grid.arrange
+#' @importFrom cowplot plot_grid
 #' @export
 plot_dynamics_protein<-function(df, 
                                 host=1, 
@@ -36,7 +36,8 @@ plot_dynamics_protein<-function(df,
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(multihost_plots,"+",theme), ncol = length(unique(df$host))))
+        plot_grid(plotlist = lapply(multihost_plots,"+",theme),
+              ncol = length(unique(df$host)))
     }
 }
 
@@ -44,6 +45,7 @@ plot_dynamics_protein<-function(df,
 #' @importFrom ggplot2 geom_violin geom_boxplot ylim scale_color_grey margin element_line
 #' @importFrom ggplot2 scale_fill_manual theme_bw facet_grid xlab ylab
 #' @importFrom ggpubr annotate_figure ggarrange text_grob
+#' @importFrom cowplot plot_grid
 generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_size=3, base_size=8, host=1, bw = "nrd0", adjust = 1){
     Total_Variants <- Incidence <- Group <- x <- proteinName <- entropy <- NULL
 
@@ -199,6 +201,6 @@ generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_si
     }
     
     #plot4_5
-    ggarrange(plot4,plot5,ncol=1,heights = c(1,0.5))
+    plot_grid(plot4, plot5, ncol = 1, rel_heights = c(1, 0.5))
 }
 

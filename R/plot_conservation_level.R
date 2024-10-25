@@ -19,7 +19,7 @@
 #' @return A plot
 #' @importFrom dplyr case_when
 #' @importFrom grid unit
-#' @importFrom gridExtra grid.arrange
+#' @importFrom cowplot plot_grid
 #' @export
 plot_conservation_level <- function(df, 
                                    protein_order=NULL,
@@ -51,7 +51,8 @@ plot_conservation_level <- function(df,
 
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(2.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(plot7_multihost,"+",theme), nrow = length(unique(df$host))))
+        plot_grid(plotlist = lapply(plot7_multihost,"+",theme),
+              ncol = length(unique(df$host)))
     }
 }
 
@@ -179,7 +180,8 @@ plot_plot7<- function(data,
                       size=label_size, color="black", hjust=0, angle=90) +
         guides(color = guide_legend(override.aes = list(size = 2), nrow=2))+
         coord_cartesian(clip = "off")+ #allow ggtext outside of the plot
-        ggtitle(unique(data$host))
+        ggtitle(unique(data$host)) +
+        theme(plot.title = element_text(margin=margin(b = 70, unit = "pt")))
 
 }
 

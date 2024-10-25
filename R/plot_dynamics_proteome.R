@@ -12,7 +12,7 @@
 #' @param adjust adjust the width of violin plot (default: 1)
 #' @return A plot
 #' @examples plot_dynamics_proteome(proteins_1host)
-#' @importFrom gridExtra grid.arrange
+#' @importFrom cowplot plot_grid
 #' @export
 plot_dynamics_proteome <- function(df,
                                    host=1,
@@ -34,7 +34,8 @@ plot_dynamics_proteome <- function(df,
         
         #create spacing between multihost plots
         theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        do.call("grid.arrange", c(grobs=lapply(multihost_plots,"+",theme), ncol = length(unique(df$host))))
+        plot_grid(plotlist = lapply(multihost_plots,"+",theme),
+              ncol = length(unique(df$host)))
     }
 
 }
