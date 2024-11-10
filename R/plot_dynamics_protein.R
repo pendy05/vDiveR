@@ -31,12 +31,10 @@ plot_dynamics_protein<-function(df,
         data_list<-split(df,df$host)
         multihost_plots <- lapply(data_list, function(df) {      
           generate_protein_plots(df, protein_order = protein_order, base_size = base_size, alpha = alpha,
-                  line_dot_size = line_dot_size, bw = bw, adjust = adjust)
+                  line_dot_size = line_dot_size, bw = bw, adjust = adjust, host=host)
         })
 
-        #create spacing between multihost plots
-        theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        plot_grid(plotlist = lapply(multihost_plots,"+",theme),
+        plot_grid(plotlist = multihost_plots,
               ncol = length(unique(df$host)))
     }
 }
@@ -57,10 +55,7 @@ generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_si
 
     for (i in 7:12){
         tmp<-data.frame(proteinName=data[1],position=data[2],incidence=data[i],total_variants=data[11],Group=group_names[i-6],Multiindex=data[13])
-        #multiple host
-        if (host != 1) {
-          tmp$host = data[14]
-        }
+
         names(tmp)[3]<-"Incidence"
         names(tmp)[4]<-"Total_Variants"
         plot4_data<-rbind(plot4_data,tmp)
@@ -77,7 +72,7 @@ generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_si
         plot4_data$proteinName<-factor(plot4_data$proteinName, levels=level)
         plot4_data$size_f = factor(plot4_data$proteinName,levels = level)
     }
-
+    plot4_data$Group<-factor(plot4_data$Group, levels=c("Index","Total variants", "Major", "Minor", "Unique", "Distinct variants"))
     plot5_data<-plot4_data
 
     #plot plot 4
@@ -90,7 +85,7 @@ generate_protein_plots<-function(data, protein_order=NULL,alpha=1/3, line_dot_si
             legend.background = element_rect(fill = "transparent"),
             panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
             legend.position = "bottom"
-        )+ guides(colour = guide_legend(override.aes = list(alpha = 1,size=2),keywidth = 1,keyheight = 1,nrow=1,byrow=TRUE))+
+        )+ guides(colour = guide_legend(override.aes = list(alpha = 1,size=2),keywidth = 1,keyheight = 0.1,nrow=1, byrow=TRUE))+
         scale_colour_manual('',values = c("Index"="black","Total variants"="#f7238a", "Major"="#37AFAF","Minor"="#42aaff","Unique"="#af10f1","Distinct variants"="#c2c7cb" ))
     plot4<-plot4+facet_grid(cols=vars(plot4_data$proteinName))
 
