@@ -22,12 +22,12 @@ plot_world_map <- function(metadata, base_size=8){
         error_msg <- paste("No records found in the metadata dataframe.")
         return(list(plot = NULL, df = error_msg))
     }
+    if (!all(c("ID", "region", "date") %in% colnames(metadata))) {
+        stop("The metadata dataframe must contain 'ID', 'region', and 'date' columns.")
+    }
 
-    metadata$region <- stringr::str_to_title(metadata$region)
-    region_list <- data.frame(table(metadata$region))
-    colnames(region_list) <- c('region','count')
   
-    #==================== data preparation section ========================#
+    #============= data preparation section - map city to region ========================#
     build_in_path <- system.file("extdata", "city_mapper.csv", package = "vDiveR")
     city2region <- utils::read.csv(build_in_path, stringsAsFactors = FALSE) 
     city2region_unique <- city2region %>%
@@ -35,23 +35,47 @@ plot_world_map <- function(metadata, base_size=8){
         dplyr::slice(1) %>%  # if more than 1 match, keep the first occurrence
         dplyr::ungroup()
 
-    # Perform the left join to match 'region' with 'city_ascii' from city_mapper
-    metadata <- metadata %>%
-        left_join(city2region_unique, by = c("region" = "city_ascii"))
+    metadata$region <- tolower(metadata$region)
+    city2region_unique$city_ascii <- tolower(city2region_unique$city_ascii)
 
-    # Replace the 'region' column in metadata with the matched 'region' from city_mapper
+    # Replace the 'region' column in metadata with the corresponding 'region' value of the matched 'city_ascii' from city_mapper
     metadata <- metadata %>%
-        mutate(region = ifelse(!is.na(region.y), region.y, region)) %>%
-        select(ID, region,date)
+        rowwise() %>%
+        mutate(
+            region = if_else(
+                region %in% city2region_unique$city_ascii,  # Check if region matches any city in city_mapper
+                city2region_unique$region[match(region, city2region_unique$city_ascii)],  # Replace with corresponding region if city matches
+                region  # Otherwise, leave it as is
+            )
+        ) %>%
+        ungroup() %>%
+        as.data.frame()
+
+    #============ data preparation section - map data region to ggplot2 region ===========#
+    world_map <- ggplot2::map_data("world")
+    world_region_list <- unique(world_map$region) # Get unique regions from the world map data
+
+    # Apply the matching function to the 'region' column
+    matched_regions <- match_region_to_target(metadata$region, world_region_list)
+    # Update 'region' column with matched regions where available
+    metadata$region <- ifelse(is.na(matched_regions), metadata$region, matched_regions)
+    # Check unique regions in the updated 'region' column
+    unique_regions <- unique(metadata$region)
+    # Identify any regions not in the target ggplot world map region list
+    regions_not_in_target <- setdiff(unique_regions,  world_region_list)
+    # Convert 'region' to factor with levels from target list
+    metadata$region <- factor(metadata$region, levels =  world_region_list)
+
+    if (length(regions_not_in_target) > 0) {
+         warning_info <- paste('The following regions could not be matched and need manual review:\n',as.character(regions_not_in_target), 
+         '.\nPlease ensure the provided regions are part of the ggplot2 world map regions. You may check the valid regions via:\n unique(ggplot2::map_data("world")$region)', collapse = ", ")
+        warning(warning_info)
+    }
+
 
     #================= plotting and tabulating section =====================#
-    world_map <- ggplot2::map_data("world")
-    missing_region <- region_list$region[! region_list$region %in% world_map$region]
-
-    if(length(missing_region) > 0){
-    warning_info <- paste(c(as.character(missing_region), ' do not exist in the ggplot2 world map. Please refer ggplot2 world map region list for the names.'), collapse = ", ")
-    warning(warning_info)
-    }
+    region_list <- data.frame(table(metadata$region))
+    colnames(region_list) <- c('region','count')
 
     p <- ggplot(world_map, aes(x = long, y = lat, group = group)) +
         geom_polygon(fill="lightgray", colour = "#888888")
@@ -65,10 +89,35 @@ plot_world_map <- function(metadata, base_size=8){
               legend.position = "right") +
         theme_classic(base_size=base_size)
 
+    
     colnames(region_list) <- c('Region','Number of Sequences')
 
     return(list(plot=p, df=region_list))
 
 }
 
+#' Map data region to ggplot2 region
+#'
+#' This function maps the provided data region to ggplot2 region.
+#' @param region_column a character vector of data region
+#' @param region_list a character vector of ggplot2 region
+#' @param max_dist maximum distance for string matching
+#' @importFrom stringdist stringdist
+match_region_to_target <- function(region_column, region_list, max_dist = 3) {
+    matched_regions <- sapply(region_column, function(x) {
+        # Compute string distances
+        distances <- stringdist::stringdist(tolower(x), tolower(region_list), method = "lv")
+        min_index <- which.min(distances)
+        min_dist <- distances[min_index]
 
+        # Check if the minimum distance is within the acceptable threshold
+        if (min_dist <= max_dist) {
+            # Return the target list element with matching capitalization
+            region_list[min_index]
+        } else {
+            # Return NA if no close match is found
+            NA
+        }
+    })
+    return(matched_regions)
+}

@@ -17,7 +17,7 @@
 plot_dynamics_proteome <- function(df,
                                    host=1,
                                    line_dot_size=2,
-                                   base_size=15,
+                                   base_size=10,
                                    alpha=1/3,
                                    bw = "nrd0",
                                    adjust = 1){
@@ -29,13 +29,13 @@ plot_dynamics_proteome <- function(df,
         data_list<-split(df,df$host)
         multihost_plots <- lapply(data_list, function(df) {
             generate_plots(df, line_dot_size = line_dot_size, base_size = base_size, 
-                    alpha = alpha, bw = bw, adjust = adjust)
+                    alpha = alpha, bw = bw, adjust = adjust, host = host)
         })
         
         #create spacing between multihost plots
-        theme = theme(plot.margin = unit(c(0.5,1.0,0.1,0.5), "cm"))
-        plot_grid(plotlist = lapply(multihost_plots,"+",theme),
-              ncol = length(unique(df$host)))
+        theme = theme(plot.margin = unit(c(0,0.1,0,0), "cm"))
+        plot_grid(plotlist = lapply(multihost_plots, '+', theme),
+                  ncol = length(unique(df$host)))
     }
 
 }
@@ -45,7 +45,7 @@ plot_dynamics_proteome <- function(df,
 #' @importFrom ggpubr annotate_figure ggarrange text_grob
 generate_plots<-function(data,
                         line_dot_size=2,
-                        base_size=15,
+                        base_size=10,
                         host = 1,
                         alpha=1/3,
                         bw = "nrd0",
@@ -87,12 +87,6 @@ generate_plots<-function(data,
     df<- rbind(df,minor,uniq)
     df$motif<-factor(df$motif,levels = c("Major","Minor","Unique","Distinct variants"))
 
-    if (host == 1){ #one host
-      ROW=1
-    }else{
-      ROW=2
-    }
-
     #plotting 3a
     proteins_point_plot<-ggplot()+geom_point(df,mapping=aes(x=Total_Variants,y=Incidence,color=Group),alpha=alpha,size= line_dot_size)+
         geom_point(df,mapping = aes(x =Total_Variants,y=Incidence),col=ifelse(df$multiIndex== TRUE & df$Group== "Index", 'red', ifelse(df$multiIndex== FALSE, 'white', 'white')), alpha=ifelse(df$multiIndex ==TRUE & df$Group== "Index", 1, ifelse(df$multiIndex== TRUE, 0,0)),pch=1,size=3,stroke=1.05)+ #multiIndex
@@ -105,7 +99,7 @@ generate_plots<-function(data,
             legend.position="bottom")+
         labs(y= "Incidence (%)", x="\nTotal variants (%)")+
         facet_wrap(~ motif,ncol = 1)+
-        guides(colour = guide_legend(override.aes = list(alpha = 1,size=2),keywidth = 1,keyheight = 1,nrow = ROW))+
+        guides(colour = guide_legend(override.aes = list(alpha = 1,size=2), nrow = host, byrow=T, keywidth = 1, keyheight = .1 ))+
         scale_colour_manual('',breaks=c("Index","Total variants","Major","Minor","Unique","Distinct variants"),
                             values = c("Index"="black", "Total variants"="#f7238a","MultiIndex"="red",
                                        "Major"="#37AFAF" , "Minor"="#42aaff","Unique"="#af10f1", "Distinct variants"="#c2c7cb"))
