@@ -29,16 +29,16 @@ plot_conservation_level <- function(df,
                                    line_dot_size = 2,
                                    label_size = 2.6, 
                                    alpha=0.6){
-  df <- df %>% data.frame() %>%
-    mutate(
-      ConservationLevel = case_when(
-        df$index.incidence == 100 ~ "Completely conserved (CC)",
-        df$index.incidence >= 90 ~ "Highly conserved (HC)",
-        df$index.incidence >= 20 ~ "Mixed variable (MV)",
-        df$index.incidence >= 10  ~ "Highly diverse (HD)",
-        df$index.incidence < 10 ~ "Extremely diverse (ED)"
-      )
-    )
+    df <- df %>% data.frame() %>%
+        dplyr::mutate(
+        ConservationLevel = case_when(
+            index.incidence == 100 ~ "Completely conserved (CC)",
+            index.incidence >= 90 ~ "Highly conserved (HC)",
+            index.incidence >= 20 ~ "Mixed variable (MV)",
+            index.incidence >= 10  ~ "Highly diverse (HD)",
+            index.incidence < 10 ~ "Extremely diverse (ED)"
+        )
+        )
 
     #single host
     if (host == 1){
@@ -57,11 +57,11 @@ plot_conservation_level <- function(df,
         # Extract the legend from one of the plots (assuming all plots have the same legend)
         shared_legend <- cowplot::get_plot_component(plot7_multihost[[1]], "guide-box", return_all = TRUE)[[3]]
         # Combine the grid with the legend at the bottom
-        plot_grid(combined_plot, shared_legend, ncol = 1, nrow = length(unique(data$host)), rel_heights = c(1, .1))
+        plot_grid(combined_plot, shared_legend, ncol = 1, nrow = length(unique(df$host)), rel_heights = c(1, .1))
     }
 }
 
-#' @importFrom plyr ddply .
+
 #' @importFrom ggplot2 position_jitter scale_colour_manual
 #' @importFrom ggplot2 position_dodge coord_cartesian
 #' @importFrom gghalves geom_half_boxplot geom_half_point
@@ -75,7 +75,7 @@ plot_plot7<- function(data,
                       label_size = 2.6, 
                       alpha =0.6){
     proteinName <- Total <- index.incidence <- NULL
-    Label <- ConservationLevel <- NULL
+    label <- ConservationLevel <- level_data <- NULL
     C_level<- c("Completely conserved (CC)",
                 "Highly conserved (HC)",
                 "Mixed variable (MV)",
@@ -107,7 +107,10 @@ plot_plot7<- function(data,
 
     #--- calculation for total and percentage of conservation levels for each protein ----
     #sum up the total positions for each conservation level of proteins
-    plot7_data<-ddply(data,.(proteinName,ConservationLevel),nrow)
+    plot7_data <- data %>%
+        dplyr::group_by(proteinName, ConservationLevel) %>%
+        dplyr::summarise(count = n()) %>%
+        dplyr::ungroup()
     names(plot7_data)[3]<-"Total"
 
     #check the presence of conservation level: insert value 0 if it is absent
@@ -124,10 +127,13 @@ plot_plot7<- function(data,
     plot7_data[order(plot7_data$proteinName),]
     plot7_data$Total<- as.integer(plot7_data$Total)
     #get the percentage of each conservation level for each protein
-    plot7_data<-ddply(plot7_data,.(proteinName),transform, percent=Total/sum(Total)*100)
+    plot7_data <- plot7_data %>%
+        dplyr::group_by(proteinName) %>%
+        dplyr::mutate(percent = Total / sum(Total) * 100) %>%
+        dplyr::ungroup()
 
     #gather the protein label in multicolor
-    plot7_data<-plot7_data%>%mutate(Label = case_when(
+    plot7_data<-plot7_data%>%mutate(label = case_when(
         plot7_data$ConservationLevel == "Completely conserved (CC)" ~ paste0(sprintf("<span style =
     'color:#000000;'>CC: %.0f (%.1f %%) </span>",plot7_data$Total, round(plot7_data$percent,1))),
         plot7_data$ConservationLevel == "Highly conserved (HC)" ~ paste0(sprintf("<span style =
@@ -147,9 +153,9 @@ plot_plot7<- function(data,
     plot7_data<-plot7_data[order(plot7_data$ConservationLevel),]
 
     #combine all conservation level labels into one for each protein
-    Proteinlabel<- aggregate(Label~proteinName, plot7_data, paste, collapse="<br>")
+    protein_labels<- aggregate(label~proteinName, plot7_data, paste, collapse="<br>")
     #get number of protein for labelling
-    nProtein<-nrow(Proteinlabel)
+    nProtein<-nrow(protein_labels)
 
     #--- append 5 dummy rows with each represents one conservation level ----
     # to ensure all 5 levels are shown in legend
@@ -193,8 +199,8 @@ plot_plot7<- function(data,
         ggtitle(unique(data$host)) +
         theme(plot.title = element_text(margin=margin(b = 50, unit = "pt"))) +
         guides(color = guide_legend(override.aes = list(size = 2), nrow=2))+
-        geom_richtext(data = Proteinlabel,
-                      aes(x=proteinName,label = Label, y=c(rep(105,nProtein)),
+        geom_richtext(data = protein_labels,
+                      aes(x=proteinName,label = label, y=c(rep(105,nProtein)),
                           label.size=0, label.color="transparent"),
                       position = position_dodge(width=0.1),
                       size=label_size, color="black", hjust=0, angle=90)

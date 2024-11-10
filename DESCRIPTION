@@ -22,7 +22,6 @@ Imports:
     ggplot2,
     ggpubr,
     grid,
-    gridExtra,
     ggtext,
     magrittr,
     plyr,
@@ -33,7 +32,8 @@ Imports:
     scales,
     utils,
     maps,
-    cowplot
+    cowplot,
+    stringdist
 RoxygenNote: 7.3.2
 Depends:
     R (>= 2.10)

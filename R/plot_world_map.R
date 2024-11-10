@@ -13,7 +13,7 @@
 #' @examples geographical_plot <- plot_world_map(metadata)$plot
 #' @examples geographical_df <- plot_world_map(metadata)$df
 #' @importFrom ggplot2 geom_polygon scale_fill_gradient map_data
-#' @importFrom dplyr left_join %>% group_by ungroup slice 
+#' @importFrom dplyr left_join %>% group_by ungroup slice rowwise mutate if_else
 #' @importFrom stringr str_to_title
 #' @export
 plot_world_map <- function(metadata, base_size=8){
@@ -40,15 +40,15 @@ plot_world_map <- function(metadata, base_size=8){
 
     # Replace the 'region' column in metadata with the corresponding 'region' value of the matched 'city_ascii' from city_mapper
     metadata <- metadata %>%
-        rowwise() %>%
-        mutate(
-            region = if_else(
+        dplyr::rowwise() %>%
+        dplyr::mutate(
+            region = dplyr::if_else(
                 region %in% city2region_unique$city_ascii,  # Check if region matches any city in city_mapper
                 city2region_unique$region[match(region, city2region_unique$city_ascii)],  # Replace with corresponding region if city matches
                 region  # Otherwise, leave it as is
             )
         ) %>%
-        ungroup() %>%
+        dplyr::ungroup() %>%
         as.data.frame()
 
     #============ data preparation section - map data region to ggplot2 region ===========#
