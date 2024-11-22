@@ -6,3 +6,7 @@ JSON_sample <- jsonlite::fromJSON(txt = readLines(con = "data-raw/proteinA.json"
 metadata<-read.csv('data-raw/metadata.csv')
 
 usethis::use_data(proteins_1host, protein_2hosts, JSON_sample, metadata, overwrite = T)
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("survminer")
