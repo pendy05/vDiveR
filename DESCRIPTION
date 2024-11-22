@@ -24,7 +24,6 @@ Imports:
     grid,
     ggtext,
     magrittr,
-    plyr,
     tidyr,
     stringr,
     rlang,

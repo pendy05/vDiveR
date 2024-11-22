@@ -30,26 +30,35 @@ plot_world_map <- function(metadata, base_size=8){
     #============= data preparation section - map city to region ========================#
     build_in_path <- system.file("extdata", "city_mapper.csv", package = "vDiveR")
     city2region <- utils::read.csv(build_in_path, stringsAsFactors = FALSE) 
-    city2region_unique <- city2region %>%
-        dplyr::group_by(city_ascii) %>%
-        dplyr::slice(1) %>%  # if more than 1 match, keep the first occurrence
-        dplyr::ungroup()
+    city2region$city_ascii <- tolower(city2region$city_ascii)
 
-    metadata$region <- tolower(metadata$region)
-    city2region_unique$city_ascii <- tolower(city2region_unique$city_ascii)
+    # Identify duplicated city_ascii values
+    duplicated_cities <- city2region %>%
+        dplyr::filter(duplicated(city_ascii) | duplicated(city_ascii, fromLast = TRUE)) %>%
+        dplyr::pull(city_ascii)
+    
+    # Check if any metadata$region matches the duplicated cities
+    problematic_regions <- metadata$region[metadata$region %in% duplicated_cities]
+
+    # Issue a warning if there are matches
+    if (length(problematic_regions) > 0) {
+        warning_msg <- paste(
+            "These 'region' values match with multiple possible world regions:\n",
+            paste(unique(problematic_regions), collapse = ", ")
+        )
+        warning(warning_msg)
+    }
 
     # Replace the 'region' column in metadata with the corresponding 'region' value of the matched 'city_ascii' from city_mapper
     metadata <- metadata %>%
-        dplyr::rowwise() %>%
         dplyr::mutate(
+            region = tolower(region), # Convert 'region' to lowercase
             region = dplyr::if_else(
-                region %in% city2region_unique$city_ascii,  # Check if region matches any city in city_mapper
-                city2region_unique$region[match(region, city2region_unique$city_ascii)],  # Replace with corresponding region if city matches
+                region %in% city2region$city_ascii,  # Check if region matches any city in city_mapper
+                city2region$region[match(region, city2region$city_ascii)],  # Replace with corresponding region if city matches
                 region  # Otherwise, leave it as is
             )
-        ) %>%
-        dplyr::ungroup() %>%
-        as.data.frame()
+        )
 
     #============ data preparation section - map data region to ggplot2 region ===========#
     world_map <- ggplot2::map_data("world")
@@ -66,9 +75,12 @@ plot_world_map <- function(metadata, base_size=8){
     # Convert 'region' to factor with levels from target list
     metadata$region <- factor(metadata$region, levels =  world_region_list)
 
+    
+
     if (length(regions_not_in_target) > 0) {
-         warning_info <- paste('The following regions could not be matched and need manual review:\n',as.character(regions_not_in_target), 
-         '.\nPlease ensure the provided regions are part of the ggplot2 world map regions. You may check the valid regions via:\n unique(ggplot2::map_data("world")$region)', collapse = ", ")
+         warning_info <- paste('Please ensure the provided regions are part of the ggplot2 world map regions. The following regions could not be matched and need manual review:\n',
+         paste(as.character(regions_not_in_target), collapse=", "), 
+         '.\nYou may check the valid regions via: unique(ggplot2::map_data("world")$region)', collapse = ", ")
         warning(warning_info)
     }
 
@@ -77,17 +89,17 @@ plot_world_map <- function(metadata, base_size=8){
     region_list <- data.frame(table(metadata$region))
     colnames(region_list) <- c('region','count')
 
-    p <- ggplot(world_map, aes(x = long, y = lat, group = group)) +
-        geom_polygon(fill="lightgray", colour = "#888888")
     pathogens.map <- dplyr::left_join(region_list, world_map, by = "region")
 
-    p <- p + geom_polygon(data = pathogens.map, aes(fill = count), color = "#888888") +
-        scale_fill_gradient(low = "#FFFFFF", high = "#E63F00", name = 'Number of Sequences') +
+    p <- ggplot(world_map, aes(x = long, y = lat, group = group)) +
+        geom_polygon(fill="lightgray", colour = "#888888") + 
+        geom_polygon(data = pathogens.map, aes(fill = count), color = "#888888") +
+        scale_fill_gradient(low = "#FFFFFF", high = "#E63F00", name = 'Number of Sequences')  +
+        theme_classic(base_size=base_size) +
         theme(plot.background = element_rect(fill = "transparent", colour = NA),
               panel.border = element_blank(), panel.grid = element_blank(),
-              axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(),
-              legend.position = "right") +
-        theme_classic(base_size=base_size)
+              axis.text = element_blank(), axis.ticks = element_blank(), 
+              axis.title = element_blank(), legend.position = "right")
 
     
     colnames(region_list) <- c('Region','Number of Sequences')

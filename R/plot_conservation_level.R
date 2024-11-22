@@ -172,7 +172,7 @@ plot_plot7<- function(data,
     data$ConservationLevel <- factor(data$ConservationLevel)
 
     #--- plotting ----
-    ggplot(data %>% filter(., level_data == 1) , aes(x=level,y=index.incidence)) +
+    ggplot(data %>% filter(level_data == 1) , aes(x=level,y=index.incidence)) +
         geom_half_boxplot(outlier.shape = NA) +
         geom_half_point(aes(col = ConservationLevel), side = "r",
                         position = position_jitter(width = 0, height=-0.7),
