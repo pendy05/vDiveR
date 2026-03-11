@@ -55,27 +55,31 @@ json2csv <-function(json_data, host_name="unknown host", protein_name="unknown p
         }
     }
 
-    # ----- index-only field
-    # extract the first encountered index kmer info if > 1 index is encountered for each position (rarely happens)
-    index_data<-subset(data_flatten, motif_short == "I") %>% #extract rows that are of index
+    # ----- Extract index sequence only (for positions that have Index motif)
+    # extract the first encountered index kmer sequence if > 1 index is encountered for each position (rarely happens)
+    index_sequences<-subset(data_flatten, motif_short == "I") %>% #extract rows that are of index
         dplyr::group_by(results.position) %>% #group them based on position
         dplyr::slice(1) %>% #take the first index encountered per position
         dplyr::ungroup() %>%
+        dplyr::select(results.position, sequence) %>%
         as.data.frame() #return the data in dataframe
 
-    #replace low_support of NAN to FALSE
-    if (nrow(index_data) > 0) {
-        index_data$results.low_support[is.na(index_data$results.low_support)] <- FALSE
-    }
-
-    # ------ position-level entropy
+    # ------ Extract position-level fields from results (not motif-specific)
     results_df <- as.data.frame(json_data$results)
 
     results_keep <- results_df %>%
         dplyr::transmute(
             results.position = position,
-            results.entropy = entropy
+            results.entropy = entropy,
+            results.support = support,
+            results.low_support = low_support,
+            results.distinct_variants_incidence = distinct_variants_incidence,
+            results.total_variants_incidence = total_variants_incidence
         )
+    
+    #replace low_support of NA to FALSE
+    results_keep$results.low_support[is.na(results_keep$results.low_support)] <- FALSE
+
     # ---- Global highest/average entropy (same for all rows) ----
     highest_pos <- if (!is.null(json_data$highest_entropy$position)) json_data$highest_entropy$position else NA
     highest_ent <- if (!is.null(json_data$highest_entropy$entropy)) json_data$highest_entropy$entropy else NA
@@ -97,32 +101,17 @@ json2csv <-function(json_data, host_name="unknown host", protein_name="unknown p
             multiIndex = tidyr::replace_na(multiIndex, FALSE)
         )
 
-    # Join index-only fields (will be NA for positions without I)
-    if (nrow(index_data) > 0) {
+    # Join index sequence (will be NA for positions without Index motif)
+    if (nrow(index_sequences) > 0) {
         motifs <- dplyr::left_join(
             motifs,
-            index_data %>%
-                dplyr::select(
-                    results.position,
-                    query_name,
-                    results.support,
-                    results.low_support,
-                    results.distinct_variants_incidence,
-                    results.total_variants_incidence,
-                    sequence
-                ),
+            index_sequences,
             by = "results.position"
         )
     } else {
-        # Create empty columns if no I exists anywhere (edge-case)
-        motifs$query_name <- NA
-        motifs$results.support <- NA
-        motifs$results.low_support <- NA
-        motifs$results.distinct_variants_incidence <- NA
-        motifs$results.total_variants_incidence <- NA
+        # Create empty column if no Index exists anywhere (edge-case)
         motifs$sequence <- NA
     }
-
 
     #assign host + protein name
     motifs['host'] <- host_name
