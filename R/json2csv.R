@@ -13,7 +13,14 @@
 #' @importFrom tidyr replace_na
 #' @export
 json2csv <-function(json_data, host_name="unknown host", protein_name="unknown protein"){
+    # Declare global variables to avoid R CMD check warnings
     Group.2 <- x <- results.position <- results.diversity_motifs <- motif_short <- NULL
+    position <- entropy <- support <- low_support <- distinct_variants_incidence <- NULL
+    total_variants_incidence <- Ma <- Mi <- U <- I <- proteinName <- NULL
+    results.support <- results.low_support <- results.entropy <- NULL
+    results.total_variants_incidence <- results.distinct_variants_incidence <- NULL
+    average_entropy <- highest_entropy.position <- highest_entropy.entropy <- host <- NULL
+    sequence <- multiIndex <- NULL
 
     data_flatten <- as.data.frame(json_data) %>%
         tidyr::unnest(cols = c(results.diversity_motifs))
