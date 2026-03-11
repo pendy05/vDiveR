@@ -32,7 +32,8 @@ Imports:
     utils,
     maps,
     cowplot,
-    stringdist
+    stringdist,
+    patchwork
 RoxygenNote: 7.3.3
 Depends:
     R (>= 2.10)
