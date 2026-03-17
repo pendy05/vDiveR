@@ -64,7 +64,6 @@ plot_conservation_level <- function(df,
 
 #' @importFrom ggplot2 position_jitter scale_colour_manual
 #' @importFrom ggplot2 position_dodge coord_cartesian geom_jitter
-#' @importFrom gghalves geom_half_boxplot geom_half_point
 #' @importFrom ggtext geom_richtext
 #plotting function
 plot_plot7<- function(data,
@@ -173,14 +172,8 @@ plot_plot7<- function(data,
 
     #--- plotting ----
     ggplot(data %>% filter(level_data == 1) , aes(x=level,y=index.incidence)) +
-        # if gghalves is installed, use a true half box; else, a normal box
-        {
-            if (requireNamespace("gghalves", quietly = TRUE)) {
-                gghalves::geom_half_boxplot(outlier.shape = NA, side = "l")
-            } else {
-                ggplot2::geom_boxplot(outlier.shape = NA, width = 0.5)
-            }
-        } +
+        # Use standard ggplot2 boxplot
+        ggplot2::geom_boxplot(outlier.shape = NA, width = 0.5) +
         geom_jitter(
             aes(x = as.numeric(level) + 0.22, colour = ConservationLevel),
             width = 0.12, height = 0,
