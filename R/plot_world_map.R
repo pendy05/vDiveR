@@ -28,8 +28,36 @@ plot_world_map <- function(metadata, base_size=8){
 
   
     #============= data preparation section - map city to region ========================#
-    build_in_path <- system.file("extdata", "city_mapper.csv", package = "vDiveR")
-    city2region <- utils::read.csv(build_in_path, stringsAsFactors = FALSE) 
+    # Load city mapper from GitHub (primary source)
+    city_mapper_url <- "https://raw.githubusercontent.com/pendy05/vDiveR/main/inst/extdata/city_mapper.csv"
+    
+    # Try to load from GitHub first, then fallback to local package file
+    city2region <- NULL
+    
+    tryCatch({
+        message("Loading city_mapper.csv from GitHub...")
+        city2region <- utils::read.csv(city_mapper_url, stringsAsFactors = FALSE)
+        message("Successfully loaded city_mapper.csv from GitHub.")
+    }, error = function(e) {
+        message("Failed to load from GitHub. Attempting to load from package...")
+        # Fallback: try to load from package if available
+        build_in_path <- system.file("extdata", "city_mapper.csv", package = "vDiveR")
+        if (file.exists(build_in_path) && file.size(build_in_path) > 0) {
+            tryCatch({
+                city2region <<- utils::read.csv(build_in_path, stringsAsFactors = FALSE)
+                message("Successfully loaded city_mapper.csv from package.")
+            }, error = function(e2) {
+                stop("Unable to load city_mapper.csv from GitHub or package. Error: ", e2$message)
+            })
+        } else {
+            stop("Unable to load city_mapper.csv. Please check your internet connection or ensure the package is properly installed.")
+        }
+    })
+    
+    if (is.null(city2region) || nrow(city2region) == 0) {
+        stop("city_mapper.csv is empty or could not be loaded.")
+    }
+    
     city2region$city_ascii <- tolower(city2region$city_ascii)
 
     # Identify duplicated city_ascii values
