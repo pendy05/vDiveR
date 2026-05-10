@@ -65,6 +65,7 @@ plot_conservation_level <- function(df,
 #' @importFrom ggplot2 position_jitter scale_colour_manual
 #' @importFrom ggplot2 position_dodge coord_cartesian geom_jitter
 #' @importFrom ggtext geom_richtext
+#' @importFrom ggrain geom_rain
 #plotting function
 plot_plot7<- function(data,
                       protein_order=NULL,
@@ -153,6 +154,8 @@ plot_plot7<- function(data,
 
     #combine all conservation level labels into one for each protein
     protein_labels<- aggregate(label~proteinName, plot7_data, paste, collapse="<br>")
+    protein_labels$level <- factor(protein_labels$proteinName, levels = level)
+    protein_labels$y <- 105 #set y position for protein labels (above the plot area)
     #get number of protein for labelling
     nProtein<-nrow(protein_labels)
 
@@ -171,42 +174,75 @@ plot_plot7<- function(data,
     data$ConservationLevel <- factor(data$ConservationLevel)
 
     #--- plotting ----
-    ggplot(data %>% filter(level_data == 1) , aes(x=level,y=index.incidence)) +
-        # Use standard ggplot2 boxplot
-        ggplot2::geom_boxplot(outlier.shape = NA, width = 0.5) +
-        geom_jitter(
-            aes(x = as.numeric(level) + 0.22, colour = ConservationLevel),
-            width = 0.12, height = 0,
-            size = line_dot_size, alpha = alpha, show.legend = TRUE
-        )+
-
-       ylim(0,105) +
-        labs(x=NULL, y="Index incidence (%)\n", color="Conservation level")+
-        theme_classic(base_size = base_size)+
-        theme(
-            legend.key = element_rect(fill = "transparent", colour = "transparent"),
-            legend.position = 'bottom',
-            plot.margin = unit(c(1, 1, 1, 1), "lines"),
-            axis.ticks.x = element_blank(),
-            axis.text.x = element_text(vjust = 0.5, hjust=0.5)
-        ) +
-        scale_colour_manual('Conservation Level',
-                            breaks = C_level,
-                            values = c("Completely conserved (CC)"="black",
-                                       "Highly conserved (HC)"="#0057d1",
-                                       "Mixed variable (MV)"="#02d57f",
-                                       "Highly diverse (HD)"="#8722ff",
-                                       "Extremely diverse (ED)"="#ff617d"),
-                            drop = FALSE) +
-        coord_cartesian(clip = "off")+ #allow ggtext outside of the plot
-        ggtitle(unique(data$host)) +
-        theme(plot.title = element_text(margin=margin(b = 50, unit = "pt"))) +
-        guides(color = guide_legend(override.aes = list(size = 2), nrow=2))+
-        geom_richtext(data = protein_labels,
-                      aes(x=proteinName,label = label, y=c(rep(105,nProtein)),
-                          label.size=0, label.color="transparent"),
-                      position = position_dodge(width=0.1),
-                      size=label_size, color="black", hjust=0, angle=90)
+    ggplot(
+        data %>% dplyr::filter(level_data == 1),
+        aes(x = level, y = index.incidence, fill = ConservationLevel, color = ConservationLevel)
+    ) +
+    ggrain::geom_rain(
+        alpha = alpha,
+        show.legend = TRUE,
+        rain.side = "r"
+    ) +
+    ylim(0, 105) +
+    labs(
+        x = NULL,
+        y = "Index incidence (%)\n",
+        fill = "Conservation level",
+        color = "Conservation level"
+    ) +
+    theme_classic(base_size = base_size) +
+    theme(
+        legend.key = element_rect(fill = "transparent", colour = "transparent"),
+        legend.position = "bottom",
+        plot.margin = unit(c(1, 1, 1, 1), "lines"),
+        axis.ticks.x = element_line(),
+        axis.line.x = element_line(),
+        axis.text.x = element_text(vjust = 0.5, hjust = 0.5),
+        plot.title = element_text(hjust = 0, margin = margin(b = 50, unit = "pt"))
+    ) +
+    scale_fill_manual(
+        "Conservation Level",
+        breaks = C_level,
+        values = c(
+        "Completely conserved (CC)" = "black",
+        "Highly conserved (HC)" = "#0057d1",
+        "Mixed variable (MV)" = "#02d57f",
+        "Highly diverse (HD)" = "#8722ff",
+        "Extremely diverse (ED)" = "#ff617d"
+        ),
+        drop = FALSE
+    ) +
+    scale_color_manual(
+        "Conservation Level",
+        breaks = C_level,
+        values = c(
+        "Completely conserved (CC)" = "black",
+        "Highly conserved (HC)" = "#0057d1",
+        "Mixed variable (MV)" = "#02d57f",
+        "Highly diverse (HD)" = "#8722ff",
+        "Extremely diverse (ED)" = "#ff617d"
+        ),
+        drop = FALSE
+    ) +
+    coord_cartesian(clip = "off") +
+    ggtitle(unique(data$host)) +
+    guides(
+        color = "none",
+        fill = guide_legend(override.aes = list(size = 2), nrow = 2, byrow = TRUE)
+    ) +
+    ggtext::geom_richtext(
+        data = protein_labels,
+        aes(x = level, y = y, label = label),
+        inherit.aes = FALSE,
+        show.legend = FALSE,
+        fill = NA,
+        label.color = NA,
+        size = label_size,
+        color = "black",
+        hjust = 0,
+        vjust = 0.8,
+        angle = 90
+    )
 
 }
 
